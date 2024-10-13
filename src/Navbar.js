@@ -14,7 +14,6 @@ function Navbar() {
   };
   return (
     <div>
-      <DatePicker /> {/* Displaying the DatePicker */}
       <button onClick={goToCart}>Go to Cart</button> {/* Redirects to Cart */}
       <button onClick={goToShoppingList}>Go to ShoppingList</button> {/* Redirects to Cart */}
     </div>
