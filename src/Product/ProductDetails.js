@@ -43,6 +43,7 @@ function ProductDetails({ addToCart }) {
       addToCart({ ...product, quantity });
     }
   }, [addToCart, product, quantity]);
+  
 
   if (loading) {
     return <p>Loading product details...</p>;

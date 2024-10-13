@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function ProductItem({ product, addToCart }) {
   const [quantity, setQuantity] = useState(1);
@@ -13,11 +14,13 @@ function ProductItem({ product, addToCart }) {
 
   return (
     <div style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
-      <img
-        src={product.image}
-        alt={product.title}
-        style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }}
-      />
+      <Link to={`/products/${product.id}`}>
+        <img
+          src={product.image}
+          alt={product.title}
+          style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }}
+        />
+      </Link>
       <h2>{product.title}</h2>
       <input
         type="number"

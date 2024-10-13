@@ -4,6 +4,7 @@ import './App.css';
 import Navbar from './Navbar';
 import ShoppingPage from './ShoppingPage';
 import Cart from './Cart/Cart';
+import ProductDetails from './Product/ProductDetails'; // Import ProductDetails
 
 function App() {
   const [cart, setCart] = React.useState([]);
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ShoppingPage addToCart={handleAddToCart} />} />
         <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} />} />
+        <Route path="/products/:id" element={<ProductDetails addToCart={handleAddToCart} />} /> {/* Add ProductDetails route */}
       </Routes>
     </Router>
   );
