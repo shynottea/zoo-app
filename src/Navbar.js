@@ -14,14 +14,14 @@ const Navbar = () => {
   ];
 
   const handleSearch = (value) => {
-    console.log(value); // Handle the search value
+    console.log(value);
   };
 
   return (
     <Row
-      align="middle"  // Vertically align the contents
+      align="middle" 
       justify="space-between"
-      style={{ height: '100%', padding: '0 20px', display: 'flex' }} // Set height to fill parent and use flexbox for alignment
+      style={{ height: '100%', padding: '0 20px', display: 'flex' }} 
     >
       <Col>
         <div className="logo" style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
