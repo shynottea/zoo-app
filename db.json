@@ -1,0 +1,11 @@
+{
+    "products": [
+      { "id": 1, "title": "Ergonomic Chair", "image": "/placeholder.svg?height=200&width=200" },
+      { "id": 2, "title": "Wireless Headphones", "image": "/placeholder.svg?height=200&width=200" },
+      { "id": 3, "title": "Smart Watch", "image": "/placeholder.svg?height=200&width=200" },
+      { "id": 4, "title": "Laptop Stand", "image": "/placeholder.svg?height=200&width=200" },
+      { "id": 5, "title": "Mechanical Keyboard", "image": "/placeholder.svg?height=200&width=200" },
+      { "id": 6, "title": "Wireless Mouse", "image": "/placeholder.svg?height=200&width=200" }
+    ]
+  }
+  
