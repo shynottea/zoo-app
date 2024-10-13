@@ -1,10 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-
 import Navbar from './Navbar';
+import ProductList from './ProductList/ProductList';
 
 function App() {
-    <Navbar/>
+  return (
+    <div>
+      <Navbar />
+      <ProductList />
+    </div>
+  );
 }
 
 export default App;
