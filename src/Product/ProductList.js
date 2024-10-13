@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import ProductItem from '../ProductItem/ProductItem';
+import React, { useState, useEffect } from 'react';
+import ProductItem from './ProductItem';
 
 function ProductList({ addToCart }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState(''); // For product filtering
+  const [filter, setFilter] = useState('');
 
-  // Fetch products from mock API (e.g., json-server)
   useEffect(() => {
-    async function fetchProducts() {
+    const fetchProducts = async () => {
       try {
         const response = await fetch('http://localhost:5000/products');
         const data = await response.json();
@@ -17,15 +16,14 @@ function ProductList({ addToCart }) {
       } catch (error) {
         console.error('Error fetching products:', error);
       }
-    }
+    };
 
     fetchProducts();
   }, []);
 
-  // Handle filtering based on input
-  const handleFilterChange = useCallback((e) => {
+  const handleFilterChange = (e) => {
     setFilter(e.target.value);
-  }, []);
+  };
 
   const filteredProducts = products.filter((product) =>
     product.title.toLowerCase().includes(filter.toLowerCase())
@@ -33,21 +31,22 @@ function ProductList({ addToCart }) {
 
   return (
     <div>
-      <h1>Product List</h1>
       <input
         type="text"
         placeholder="Filter products"
         value={filter}
-        onChange={handleFilterChange} // onChange event handler
+        onChange={handleFilterChange}
       />
       {loading ? (
         <p>Loading products...</p>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+        <ul style={{ listStyleType: 'none', padding: 0 }}>
           {filteredProducts.map((product) => (
-            <ProductItem key={product.id} product={product} addToCart={addToCart} />
+            <li key={product.id} style={{ marginBottom: '20px' }}>
+              <ProductItem product={product} addToCart={addToCart} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 
-function Cart({ cart, removeFromCart }) {
+function Cart({ cart = [], removeFromCart }) {  // Default cart to an empty array
   // Memoize total count and price
   const cartTotal = useMemo(() => cart.length, [cart]);
   const totalPrice = useMemo(() => cart.reduce((sum, item) => sum + item.price * item.quantity, 0), [cart]);

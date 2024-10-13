@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 
 function ProductItem({ product, addToCart }) {
   const [quantity, setQuantity] = useState(1);
 
-  const handleQuantityChange = useCallback((e) => {
-    setQuantity(Number(e.target.value)); // onChange for quantity
-  }, []);
+  const handleQuantityChange = (e) => {
+    setQuantity(Number(e.target.value));
+  };
 
-  const handleAddToCart = useCallback(() => {
-    addToCart({ ...product, quantity }); // onClick to add product with quantity
-  }, [addToCart, product, quantity]);
+  const handleAddToCart = () => {
+    addToCart({ ...product, quantity });
+  };
 
   return (
     <div style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
@@ -23,7 +23,7 @@ function ProductItem({ product, addToCart }) {
         type="number"
         value={quantity}
         min="1"
-        onChange={handleQuantityChange} // onChange event handler for quantity
+        onChange={handleQuantityChange}
       />
       <button onClick={handleAddToCart} style={{ marginTop: '10px' }}>
         Add to Cart
