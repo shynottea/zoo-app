@@ -1,41 +1,48 @@
+// App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { Layout } from 'antd';
+
+
 import Navbar from './Navbar';
-import ShoppingPage from './ShoppingPage';
-import Cart from './Cart/Cart';
-import ProductDetails from './Product/ProductDetails'; // Import ProductDetails
+import Cart from './routes/Cart';
+import ProductList from './routes/Product/ProductList';
+import ProductDetails from './routes/Product/ProductDetails';
+import Contacts from './routes/Contacts';
+import Login from './routes/Login';
+import { CartProvider } from './routes/CartContext';  
 
-function App() {
-  const [cart, setCart] = React.useState([]);
+const { Header, Content } = Layout;
 
-  const handleAddToCart = (product) => {
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find(item => item.id === product.id);
-      if (existingProduct) {
-        return prevCart.map(item => 
-          item.id === product.id ? { ...item, quantity: item.quantity + product.quantity } : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: product.quantity }];
-    });
-    console.log('Added to cart:', product);
-  };
-
-  const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-  };
-
+const App = () => {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<ShoppingPage addToCart={handleAddToCart} />} />
-        <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} />} />
-        <Route path="/products/:id" element={<ProductDetails addToCart={handleAddToCart} />} /> {/* Add ProductDetails route */}
-      </Routes>
-    </Router>
+    <CartProvider>
+    <Layout>
+      <Header>
+        <div className="demo-logo" />
+        <Navbar />
+      </Header>
+      <Layout>
+        <Content
+          style={{
+            padding: 24,
+            margin: 0,
+            minHeight: 280,
+          }}
+        >
+          <Routes>
+            <Route path="/productlist" element={<ProductList />} />
+            <Route path="/products/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<ProductList />} />
+          </Routes>
+        </Content>
+      </Layout>
+    </Layout>
+    </CartProvider>
   );
-}
+};
 
 export default App;

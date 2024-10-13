@@ -1,11 +1,52 @@
 {
-    "products": [
-      { "id": 1, "title": "Ergonomic Chair", "image": "/placeholder.svg?height=200&width=200" },
-      { "id": 2, "title": "Wireless Headphones", "image": "/placeholder.svg?height=200&width=200" },
-      { "id": 3, "title": "Smart Watch", "image": "/placeholder.svg?height=200&width=200" },
-      { "id": 4, "title": "Laptop Stand", "image": "/placeholder.svg?height=200&width=200" },
-      { "id": 5, "title": "Mechanical Keyboard", "image": "/placeholder.svg?height=200&width=200" },
-      { "id": 6, "title": "Wireless Mouse", "image": "/placeholder.svg?height=200&width=200" }
-    ]
-  }
-  
+  "products": [
+    {
+      "id": 1,
+      "title": "Ergonomic Chair",
+      "image": "/placeholder.svg?height=200&width=200",
+      "description": "A comfortable ergonomic chair for long hours of work.",
+      "category": "Furniture",
+      "price": 199.99
+    },
+    {
+      "id": 2,
+      "title": "Wireless Headphones",
+      "image": "/placeholder.svg?height=200&width=200",
+      "description": "Noise-cancelling wireless headphones for an immersive audio experience.",
+      "category": "Electronics",
+      "price": 89.99
+    },
+    {
+      "id": 3,
+      "title": "Smart Watch",
+      "image": "/placeholder.svg?height=200&width=200",
+      "description": "A smartwatch with health tracking features and notifications.",
+      "category": "Wearables",
+      "price": 149.99
+    },
+    {
+      "id": 4,
+      "title": "Laptop Stand",
+      "image": "/placeholder.svg?height=200&width=200",
+      "description": "Adjustable laptop stand for better posture and cooling.",
+      "category": "Accessories",
+      "price": 39.99
+    },
+    {
+      "id": 5,
+      "title": "Mechanical Keyboard",
+      "image": "/placeholder.svg?height=200&width=200",
+      "description": "A high-quality mechanical keyboard for gaming and typing.",
+      "category": "Accessories",
+      "price": 99.99
+    },
+    {
+      "id": 6,
+      "title": "Wireless Mouse",
+      "image": "/placeholder.svg?height=200&width=200",
+      "description": "Ergonomic wireless mouse with customizable buttons.",
+      "category": "Accessories",
+      "price": 29.99
+    }
+  ]
+}
