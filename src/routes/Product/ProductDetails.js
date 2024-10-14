@@ -19,9 +19,8 @@ const ProductDetails = () => {
         }
 
         const data = await response.json();
-        console.log(data)
-
-        const foundProduct = data.find(product => product.id === Number(id));
+        console.log(id)
+        const foundProduct = data.find(product => product.id == id); 
         console.log(foundProduct)
         if (!foundProduct) {
           throw new Error('Product not found');

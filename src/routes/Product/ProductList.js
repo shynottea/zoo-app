@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ProductItem from './ProductItem';
 
 const ProductList = () => {
@@ -34,7 +34,16 @@ const ProductList = () => {
         return [...prevCart, productToAdd];
       }
     });
-  }, [cart]);
+  }, []);
+
+  // Memoize the product list so it's only recalculated when 'products' change
+  const memoizedProductList = useMemo(() => {
+    return products.map((product) => (
+      <li key={product.id}>
+        <ProductItem product={product} addToCart={addToCart} />
+      </li>
+    ));
+  }, [products, addToCart]);  // Dependencies are products and addToCart
 
   return (
     <div>
@@ -42,11 +51,7 @@ const ProductList = () => {
         <p>Loading products...</p>
       ) : (
         <ul style={{ listStyleType: 'none', padding: 0 }}>
-          {products.map((product) => (
-            <li key={product.id}>
-              <ProductItem product={product} addToCart={addToCart} />
-            </li>
-          ))}
+          {memoizedProductList}
         </ul>
       )}
     </div>
