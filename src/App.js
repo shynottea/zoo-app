@@ -6,14 +6,17 @@ import { Layout } from 'antd';
 
 import Navbar from './Navbar';
 import Cart from './routes/Cart';
-import ProductList from './routes/ProductList';
+import ProductList from './routes/Product/ProductList';
+import ProductDetails from './routes/Product/ProductDetails';
 import Contacts from './routes/Contacts';
 import Login from './routes/Login';
+import { CartProvider } from './routes/CartContext';  
 
 const { Header, Content } = Layout;
 
 const App = () => {
   return (
+    <CartProvider>
     <Layout>
       <Header>
         <div className="demo-logo" />
@@ -29,6 +32,7 @@ const App = () => {
         >
           <Routes>
             <Route path="/productlist" element={<ProductList />} />
+            <Route path="/products/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/login" element={<Login />} />
@@ -37,6 +41,7 @@ const App = () => {
         </Content>
       </Layout>
     </Layout>
+    </CartProvider>
   );
 };
 

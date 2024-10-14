@@ -18,6 +18,12 @@ const Navbar = () => {
   };
 
   return (
+// <<<<<<< HEAD
+//     <div>
+//       <button onClick={goToCart}>Go to Cart</button> {/* Redirects to Cart */}
+//       <button onClick={goToShoppingList}>Go to ShoppingList</button> {/* Redirects to Cart */}
+//     </div>
+// =======
     <Row
       align="middle" 
       justify="space-between"
@@ -47,6 +53,7 @@ const Navbar = () => {
         />
       </Col>
     </Row>
+// >>>>>>> origin/main */}
   );
 };
 
