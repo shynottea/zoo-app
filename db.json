@@ -48,5 +48,10 @@
       "category": "Accessories",
       "price": 29.99
     }
+  ],
+
+  "users": [
+    { "id": 1, "username": "aaa", "password": "aaa" },
+    { "id": 2, "username": "daniyal", "password": "mambetov" }
   ]
 }
