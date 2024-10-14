@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ProductItem from './ProductItem';
 
 const ProductList = () => {
@@ -22,27 +22,19 @@ const ProductList = () => {
     fetchProducts();
   }, []);
 
-  const addToCart = (productToAdd) => {
-    // Debugging: Log current cart and the product being added
-    console.log('Current Cart:', cart);
-    console.log('Product to add:', productToAdd);
-
+  const addToCart = useCallback((productToAdd) => {
     setCart((prevCart) => {
       const existingProductIndex = prevCart.findIndex(item => item.id === productToAdd.id);
 
       if (existingProductIndex !== -1) {
-        // If product already exists, update its quantity
         const updatedCart = [...prevCart];
         updatedCart[existingProductIndex].quantity += productToAdd.quantity;
-        console.log('Updated Cart:', updatedCart);
         return updatedCart;
       } else {
-        // Otherwise, add it to the cart
-        console.log('Adding new product to cart:', [...prevCart, productToAdd]);
         return [...prevCart, productToAdd];
       }
     });
-  };
+  }, [cart]);
 
   return (
     <div>
@@ -51,7 +43,6 @@ const ProductList = () => {
       ) : (
         <ul style={{ listStyleType: 'none', padding: 0 }}>
           {products.map((product) => (
-            
             <li key={product.id}>
               <ProductItem product={product} addToCart={addToCart} />
             </li>

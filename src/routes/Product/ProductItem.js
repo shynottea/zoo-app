@@ -1,22 +1,24 @@
-import React, { useState, useContext } from 'react';
-import { CartContext } from '../CartContext'; // Import CartContext
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import React, { useState, useCallback, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../CartContext';
 
 function ProductItem({ product }) {
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useContext(CartContext); // Use addToCart from context
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
+
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, Number(e.target.value)); // Ensure quantity is at least 1
+    const value = Math.max(1, Number(e.target.value));
     setQuantity(value);
   };
 
-  const handleAddToCart = () => {
-    addToCart({ ...product, quantity }); // Add product to cart using context function
-  };
-  const handleMoreClick = () => {
-    navigate(`/products/${product.id}`); // Navigate to the product details page
-  };
+  const handleAddToCart = useCallback(() => {
+    addToCart({ ...product, quantity });
+  }, [addToCart, product, quantity]);
+
+  const handleMoreClick = useCallback(() => {
+    navigate(`/products/${product.id}`);
+  }, [navigate, product.id]);
 
   return (
     <div style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
