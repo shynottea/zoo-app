@@ -7,15 +7,25 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Чтение данных из localStorage при первой загрузке компонента
+  // Получаем данные о пользователе при загрузке компонента
   useEffect(() => {
-    const savedUsername = localStorage.getItem('username');
-    const savedLoggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/users');
+        const users = await response.json();
 
-    if (savedUsername && savedLoggedInStatus) {
-      setUsername(savedUsername);
-      setIsLoggedIn(true);
-    }
+        // Проверяем, есть ли залогиненный пользователь
+        const loggedUser = users.find((user) => user.isLoggedIn);
+        if (loggedUser) {
+          setUsername(loggedUser.username);
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error('Ошибка при запросе:', error);
+      }
+    };
+
+    fetchLoggedInUser();
   }, []);
 
   // Обработчик ввода для полей
@@ -33,7 +43,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/users');
+      const response = await fetch('http://localhost:5000/users');
       const users = await response.json();
 
       const user = users.find(
@@ -44,12 +54,16 @@ const Login = () => {
         setIsLoggedIn(true);
         setError('');
 
-        // Сохраняем статус и имя пользователя в localStorage
-        localStorage.setItem('username', username);
-        localStorage.setItem('isLoggedIn', 'true');
+        // Обновляем статус залогиненности пользователя на сервере
+        await fetch(`http://localhost:5000/users/${user.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ isLoggedIn: true }),
+        });
 
-        // Перезагружаем страницу после успешного логина
-        window.location.reload();
+        // Не перезагружаем страницу, а сохраняем состояние
       } else {
         setError('Неверное имя пользователя или пароль');
       }
@@ -60,18 +74,31 @@ const Login = () => {
   }, [username, password]);
 
   // Обработчик выхода
-  const handleLogout = useCallback(() => {
-    setIsLoggedIn(false);
-    setUsername('');
-    setPassword('');
-    setError('');
+  const handleLogout = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:5000/users');
+      const users = await response.json();
 
-    // Удаляем данные из localStorage
-    localStorage.removeItem('username');
-    localStorage.removeItem('isLoggedIn');
+      const loggedInUser = users.find((user) => user.isLoggedIn);
 
-    // Перезагружаем страницу после логаута
-    window.location.reload();
+      if (loggedInUser) {
+        // Обновляем статус залогиненности на сервере (выходим из аккаунта)
+        await fetch(`http://localhost:5000/users/${loggedInUser.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ isLoggedIn: false }),
+        });
+
+        setIsLoggedIn(false);
+        setUsername('');
+        setPassword('');
+        setError('');
+      }
+    } catch (error) {
+      console.error('Ошибка при запросе:', error);
+    }
   }, []);
 
   // Мемоизация приветственного сообщения
@@ -79,7 +106,7 @@ const Login = () => {
     return isLoggedIn ? `Добро пожаловать, ${username}!` : 'Вход';
   }, [isLoggedIn, username]);
 
-  // Если пользователь вошел в систему, показываем кнопку "Выйти"
+  // Если пользователь вошел в систему, показываем кнопку "Выйти" и приветствие
   if (isLoggedIn) {
     return (
         <div>
@@ -102,7 +129,7 @@ const Login = () => {
                 type="text"
                 name="username"
                 value={username}
-                onChange={handleInputChange}  // Обработка изменения ввода
+                onChange={handleInputChange}
                 required
             />
           </div>
@@ -112,7 +139,7 @@ const Login = () => {
                 type="password"
                 name="password"
                 value={password}
-                onChange={handleInputChange}  // Обработка изменения ввода
+                onChange={handleInputChange}
                 required
             />
           </div>
