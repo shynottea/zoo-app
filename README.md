@@ -34,9 +34,9 @@ We are students of **Kazakh-British Technical University (KBTU)**, currently enr
 
 ### Installation
 1. **Clone the repository:**
- git clone https://github.com/your-github-username/your-repo-name.git
- cd your-repo-name
-  npm install js-cookie
-  npm install antd
-  npx json-server --watch db.json --port 5000
-  npm start
+ -git clone https://github.com/your-github-username/your-repo-name.git
+ -cd your-repo-name
+  -npm install js-cookie
+  -npm install antd
+  -npx json-server --watch db.json --port 5000
+  -npm start
