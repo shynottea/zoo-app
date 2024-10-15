@@ -7,7 +7,7 @@ import { AuthContext } from './routes/AuthContext';
 
 const { Search } = Input;
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => { 
   const { isAuth, logout } = useContext(AuthContext);
 
   const items = [
@@ -15,35 +15,25 @@ const Navbar = () => {
     { key: 'contacts', label: <Link to="/contacts">Contacts</Link> },
     { key: 'cart', label: <Link to="/cart">Cart</Link> },
     isAuth
-        ? { key: 'logout', label: <button onClick={logout}>Logout</button> }
-        : { key: 'login', label: <Link to="/login">Login</Link> },
+      ? { key: 'logout', label: <button onClick={logout}>Logout</button> }
+      : { key: 'login', label: <Link to="/login">Login</Link> },
   ];
 
-  const handleSearch = (value) => {
-    console.log(value);
-  };
-
   return (
-    <Row
-      align="middle" 
-      justify="space-between"
-      style={{ height: '100%', padding: '0 20px', display: 'flex' }} 
-    >
+    <Row align="middle" justify="space-between" style={{ height: '100%', padding: '0 20px', display: 'flex' }}>
       <Col>
         <div className="logo" style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
           <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
         </div>
       </Col>
 
-
-        <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Search
-              placeholder="Search products..."
-              onSearch={handleSearch}
-              style={{ width: '300px' }}
-          />
-        </Col>
-
+      <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Search
+          placeholder="Search products..."
+          onSearch={onSearch} 
+          style={{ width: '300px' }}
+        />
+      </Col>
 
       <Col>
         <Menu
@@ -55,7 +45,6 @@ const Navbar = () => {
         />
       </Col>
     </Row>
-
   );
 };
 
