@@ -33,7 +33,7 @@ We are students of **Kazakh-British Technical University (KBTU)**, currently enr
 - npm or yarn
 
 ### Installation
-- git clone https://github.com/your-github-username/your-repo-name.git
+- git clone https://github.com/shynottea/zoo-app.git
 - cd zoo-app
 - npm install js-cookie
 - npm install antd
