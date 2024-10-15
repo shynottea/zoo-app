@@ -49,9 +49,16 @@
       "price": 29.99
     }
   ],
-
   "users": [
-    { "id": 1, "username": "aaa", "password": "aaa" },
-    { "id": 2, "username": "daniyal", "password": "mambetov" }
+    {
+      "name": "admin",
+      "password": "admin",
+      "isAdmin": true
+    },
+    {
+      "name": "dony",
+      "password": "magrony",
+      "isAdmin": false
+    }
   ]
 }
