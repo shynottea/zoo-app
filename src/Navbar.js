@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Input, Row, Col } from 'antd';
 import zooLogo from './assets/zoo-logo.png';
@@ -6,8 +7,9 @@ import { AuthContext } from './routes/AuthContext';
 
 const { Search } = Input;
 
-const Navbar = ({ onSearch }) => { 
+const Navbar = ({ onSearch }) => {
   const { isAuth, logout } = useContext(AuthContext);
+  const [searchValue, setSearchValue] = useState(''); // State for search input
 
   // Conditionally render the cart menu item based on authentication
   const items = [
@@ -18,15 +20,21 @@ const Navbar = ({ onSearch }) => {
       ? { key: 'logout', label: <button onClick={logout}>Logout</button> }
       : { key: 'login', label: <Link to="/login">Login</Link> },
 
-  ].filter(Boolean); // Filter out `false` values
+  ].filter(Boolean); 
 
+  const handleSearch = (value) => {
+    if (onSearch) {
+      onSearch(value); 
+    }
+    setSearchValue('');  
+  };
 
   return (
-
     <Row
       align="middle"
       justify="space-between"
       style={{ height: '100%', padding: '0 20px', display: 'flex' }}
+
     >
       <Col>
         <div className="logo" style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
@@ -38,7 +46,10 @@ const Navbar = ({ onSearch }) => {
         <Search
           placeholder="Search products..."
 
-          onSearch={onSearch} 
+          value={searchValue} // Controlled input value
+          onChange={(e) => setSearchValue(e.target.value)} // Update state on change
+          onSearch={handleSearch}
+
           style={{ width: '300px' }}
         />
       </Col>
