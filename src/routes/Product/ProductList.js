@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ProductItem from './ProductItem';
+import { Row, Col, Spin } from 'antd';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -36,23 +37,23 @@ const ProductList = () => {
     });
   }, []);
 
-  // Memoize the product list so it's only recalculated when 'products' change
+  // Memoized product list
   const memoizedProductList = useMemo(() => {
     return products.map((product) => (
-      <li key={product.id}>
+      <Col key={product.id} xs={24} sm={12} md={8} lg={8} xl={6}>
         <ProductItem product={product} addToCart={addToCart} />
-      </li>
+      </Col>
     ));
-  }, [products, addToCart]);  // Dependencies are products and addToCart
+  }, [products, addToCart]);
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       {loading ? (
-        <p>Loading products...</p>
+        <Spin tip="Loading products..." />
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+        <Row gutter={[16, 16]}>
           {memoizedProductList}
-        </div>
+        </Row>
       )}
     </div>
   );

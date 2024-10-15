@@ -1,48 +1,61 @@
-  import React, { useState, useCallback, useContext } from 'react';
-  import { useNavigate } from 'react-router-dom';
-  import { CartContext } from '../CartContext';
+import React, { useState, useCallback, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../CartContext';
+import { Card, Button, InputNumber } from 'antd';
 
-  function ProductItem({ product }) {
-    const [quantity, setQuantity] = useState(1);
-    const { addToCart } = useContext(CartContext);
-    const navigate = useNavigate();
+const { Meta } = Card;
 
-    const handleQuantityChange = (e) => {
-      const value = Math.max(1, Number(e.target.value));
-      setQuantity(value);
-    };
+function ProductItem({ product, isDetailView }) {
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
-    const handleAddToCart = useCallback(() => {
-      addToCart({ ...product, quantity });
-    }, [addToCart, product, quantity]);
+  const handleQuantityChange = (value) => {
+    setQuantity(value);
+  };
 
-    const handleMoreClick = useCallback(() => {
-      navigate(`/products/${product.id}`);
-    }, [navigate, product.id]);
+  const handleAddToCart = useCallback(() => {
+    addToCart({ ...product, quantity });
+  }, [addToCart, product, quantity]);
 
-    return (
-      <div style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
-        <img
-          src={product.image}
-          alt={product.title}
-          style={{ width: '400px', height: 'auto' }}
+  const handleMoreClick = useCallback(() => {
+    navigate(`/products/${product.id}`);
+  }, [navigate, product.id]);
+
+  return (
+    <Card
+      hoverable
+      style={{ width: isDetailView ? 600 : 300 }}
+      cover={
+        <img 
+          alt={product.title} 
+          src={product.image} 
+          style={{ 
+            height: isDetailView ? 400 : 200, 
+            objectFit: 'cover' 
+          }} 
         />
-        <h2>{product.title}</h2>
-        <input
-          type="number"
+      }
+    >
+      <Meta title={product.title} description={`Price: $${product.price}`} />
+      <div style={{ marginTop: '10px' }}>
+        <InputNumber
+          min={1}
           value={quantity}
-          min="1"
           onChange={handleQuantityChange}
-          style={{ width: '60px', marginRight: '10px' }}
+          style={{ marginRight: '10px' }}
         />
-        <button onClick={handleAddToCart} style={{ marginTop: '10px' }}>
+        <Button type="primary" onClick={handleAddToCart}>
           Add to Cart
-        </button>
-        <button onClick={handleMoreClick} style={{ marginLeft: '10px' }}>
-          More
-        </button>
+        </Button>
+        {!isDetailView && (
+          <Button onClick={handleMoreClick} style={{ marginLeft: '10px' }}>
+            More
+          </Button>
+        )}
       </div>
-    );
-  }
+    </Card>
+  );
+}
 
-  export default ProductItem;
+export default ProductItem;

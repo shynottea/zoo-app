@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../CartContext';
+import { Card, Spin, Alert } from 'antd';
 import ProductItem from './ProductItem';
 
 const ProductDetails = () => {
@@ -19,9 +20,7 @@ const ProductDetails = () => {
         }
 
         const data = await response.json();
-        console.log(id)
-        const foundProduct = data.find(product => product.id == id); 
-        console.log(foundProduct)
+        const foundProduct = data.find(product => product.id == parseInt(id, 10));
         if (!foundProduct) {
           throw new Error('Product not found');
         }
@@ -39,18 +38,15 @@ const ProductDetails = () => {
 
   const memoizedProduct = useMemo(() => product, [product]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <Spin tip="Loading product details..." />;
+  if (error) return <Alert message={error} type="error" />;
 
   return (
     <div style={{ padding: '20px' }}>
       {memoizedProduct ? (
-        <ProductItem
-          product={memoizedProduct}
-          addToCart={addToCart}
-        />
+        <ProductItem product={memoizedProduct} addToCart={addToCart} isDetailView={true} />
       ) : (
-        <p>Product details are not available.</p>
+        <Alert message="Product details are not available." type="warning" />
       )}
     </div>
   );
