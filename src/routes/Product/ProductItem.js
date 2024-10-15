@@ -59,7 +59,7 @@ function ProductItem({ product, isDetailView, isLoading }) {
           </>
         )}
         {!isDetailView && (
-          <Button onClick={handleMoreClick} style={{ marginLeft: '10px' }}>
+          <Button onClick={handleMoreClick} style={{  marginTop: '5%' }}>
             More
           </Button>
         )}
