@@ -44,7 +44,16 @@ const ProductDetails = () => {
   return (
     <div style={{ padding: '20px' }}>
       {memoizedProduct ? (
-        <ProductItem product={memoizedProduct} addToCart={addToCart} isDetailView={true} />
+        <>
+          <ProductItem product={memoizedProduct} addToCart={addToCart} isDetailView={true} />
+          {/* Display product details if available */}
+          {memoizedProduct.description   && (
+            <Card style={{ marginTop: '20px' }}>
+              <h3>Product Details</h3>
+              <p>{memoizedProduct.description}</p>
+            </Card>
+          )}
+        </>
       ) : (
         <Alert message="Product details are not available." type="warning" />
       )}
