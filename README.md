@@ -20,7 +20,7 @@ Welcome to our **ZOO-APP**! This project is a part of our React course at KBTU, 
 ## 🧑‍💻 Team Members
 | Name    | Role       | Email                         |
 |---------|------------|-------------------------------|
-| Magzhan | Developer  | m.kulekesh2005@gmail.ru       |
+| Magzhan | Developer  | m.kulekesh2005@gmail.com      |
 | Daniyal | Developer  | daniyal.mambetov.04@gmail.com |
 | Islam   | Developer  | kogsaitama@gmail.com          |
 
