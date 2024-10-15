@@ -6,7 +6,7 @@ import { AuthContext } from './routes/AuthContext';
 
 const { Search } = Input;
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => { 
   const { isAuth, logout } = useContext(AuthContext);
 
   // Conditionally render the cart menu item based on authentication
@@ -17,13 +17,12 @@ const Navbar = () => {
     isAuth
       ? { key: 'logout', label: <button onClick={logout}>Logout</button> }
       : { key: 'login', label: <Link to="/login">Login</Link> },
+
   ].filter(Boolean); // Filter out `false` values
 
-  const handleSearch = (value) => {
-    console.log(value);
-  };
 
   return (
+
     <Row
       align="middle"
       justify="space-between"
@@ -38,7 +37,8 @@ const Navbar = () => {
       <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Search
           placeholder="Search products..."
-          onSearch={handleSearch}
+
+          onSearch={onSearch} 
           style={{ width: '300px' }}
         />
       </Col>
