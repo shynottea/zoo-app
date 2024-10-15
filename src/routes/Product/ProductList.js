@@ -50,9 +50,9 @@ const ProductList = () => {
       {loading ? (
         <p>Loading products...</p>
       ) : (
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
           {memoizedProductList}
-        </ul>
+        </div>
       )}
     </div>
   );

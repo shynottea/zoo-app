@@ -2,51 +2,67 @@
   "products": [
     {
       "id": 1,
-      "title": "Ergonomic Chair",
-      "image": "/placeholder.svg?height=200&width=200",
-      "description": "A comfortable ergonomic chair for long hours of work.",
-      "category": "Furniture",
-      "price": 199.99
+      "title": "Dog Bed",
+      "image": "https://shorturl.at/ExE40",
+      "description": "A comfortable and durable bed for your dog to rest on.",
+      "category": "Pet Furniture",
+      "price": 49.99
     },
     {
       "id": 2,
-      "title": "Wireless Headphones",
-      "image": "/placeholder.svg?height=200&width=200",
-      "description": "Noise-cancelling wireless headphones for an immersive audio experience.",
-      "category": "Electronics",
-      "price": 89.99
+      "title": "Cat Scratching Post",
+      "image": "https://shorturl.at/LciaF",
+      "description": "A sturdy scratching post to keep your cat entertained and your furniture safe.",
+      "category": "Pet Toys",
+      "price": 29.99
     },
     {
       "id": 3,
-      "title": "Smart Watch",
-      "image": "/placeholder.svg?height=200&width=200",
-      "description": "A smartwatch with health tracking features and notifications.",
-      "category": "Wearables",
-      "price": 149.99
-    },
-    {
-      "id": 4,
-      "title": "Laptop Stand",
-      "image": "/placeholder.svg?height=200&width=200",
-      "description": "Adjustable laptop stand for better posture and cooling.",
-      "category": "Accessories",
-      "price": 39.99
-    },
-    {
-      "id": 5,
-      "title": "Mechanical Keyboard",
-      "image": "/placeholder.svg?height=200&width=200",
-      "description": "A high-quality mechanical keyboard for gaming and typing.",
-      "category": "Accessories",
+      "title": "Fish Tank",
+      "image": "https://shorturl.at/GwAYS",
+      "description": "A 20-gallon glass fish tank with LED lighting for freshwater or marine use.",
+      "category": "Aquatic Supplies",
       "price": 99.99
     },
     {
+      "id": 4,
+      "title": "Bird Cage",
+      "image": "https://shorturl.at/QBYMr",
+      "description": "A spacious and well-ventilated cage for birds, complete with perches and feeding trays.",
+      "category": "Pet Cages",
+      "price": 79.99
+    },
+    {
+      "id": 5,
+      "title": "Dog Leash",
+      "image": "https://m.media-amazon.com/images/I/81S1t0ZtzVL.jpg",
+      "description": "A durable, adjustable leash for walking your dog safely and comfortably.",
+      "category": "Pet Toys",
+      "price": 19.99
+    },
+    {
       "id": 6,
-      "title": "Wireless Mouse",
-      "image": "/placeholder.svg?height=200&width=200",
-      "description": "Ergonomic wireless mouse with customizable buttons.",
-      "category": "Accessories",
-      "price": 29.99
+      "title": "Cat Food",
+      "image": "https://i5.walmartimages.com/seo/Meow-Mix-Original-Choice-Dry-Cat-Food-30-Pounds_c6ce8dad-9f70-4368-a3a0-64d1c9730fd6.6e4cf26663f507ba903d633a8e44cb08.jpeg",
+      "description": "Premium dry cat food with essential nutrients for a healthy and active cat.",
+      "category": "Pet Food",
+      "price": 24.99
+    },
+    {
+      "id": 7,
+      "title": "Bird Food",
+      "image": "https://m.media-amazon.com/images/I/81d9pdVBdES.jpg",
+      "description": "Premium dry cat food with essential nutrients for a healthy and active cat.",
+      "category": "Pet Food",
+      "price": 24.99
+    },
+    {
+      "id": 8,
+      "title": "Dog Food",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgqKroqo3JSyymUzGy0rySXJnkL0IWM8DgsA&s",
+      "description": "Premium dry cat food with essential nutrients for a healthy and active cat.",
+      "category": "Pet Food",
+      "price": 24.99
     }
   ]
 }
