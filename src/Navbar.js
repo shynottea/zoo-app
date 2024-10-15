@@ -1,7 +1,6 @@
-
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, Input, Row, Col } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, Input, Row, Col, Button } from 'antd';
 import zooLogo from './assets/zoo-logo.png';
 import { AuthContext } from './routes/AuthContext';
 
@@ -9,61 +8,76 @@ const { Search } = Input;
 
 const Navbar = ({ onSearch }) => {
   const { isAuth, logout } = useContext(AuthContext);
-  const [searchValue, setSearchValue] = useState(''); // State for search input
+  const [searchValue, setSearchValue] = useState('');
+  const navigate = useNavigate();
 
-  // Conditionally render the cart menu item based on authentication
-  const items = [
-    { key: 'products', label: <Link to="/productlist">Products</Link> },
-    { key: 'contacts', label: <Link to="/contacts">Contacts</Link> },
-    isAuth && { key: 'cart', label: <Link to="/cart">Cart</Link> }, // Only show Cart if user is authenticated
-    isAuth
-      ? { key: 'logout', label: <button onClick={logout}>Logout</button> }
-      : { key: 'login', label: <Link to="/login">Login</Link> },
-
-  ].filter(Boolean); 
+  // Function to handle navigation and reset the search
+  const handleLogoClick = () => {
+    setSearchValue(''); // Reset search input
+    navigate('/productlist', { replace: true }); // Navigate and replace history to refresh page
+    if (onSearch) {
+      onSearch(''); // Clear search results
+    }
+  };
 
   const handleSearch = (value) => {
     if (onSearch) {
-      onSearch(value); 
+      onSearch(value);
     }
-    setSearchValue('');  
+    setSearchValue(''); // Clear the search input after search
   };
 
+  const items = [
+    {
+      key: 'products',
+      label: (
+          <span
+              onClick={handleLogoClick}
+              style={{ cursor: 'pointer' }}
+          >
+          Products
+        </span>
+      ),
+    },
+    { key: 'contacts', label: <Link to="/contacts">Contacts</Link> },
+    isAuth && { key: 'cart', label: <Link to="/cart">Cart</Link> },
+    isAuth
+        ? { key: 'logout', label: <Button onClick={logout}>Logout</Button> }
+        : { key: 'login', label: <Link to="/login">Login</Link> },
+  ].filter(Boolean);
+
   return (
-    <Row
-      align="middle"
-      justify="space-between"
-      style={{ height: '100%', padding: '0 20px', display: 'flex' }}
+      <Row align="middle" justify="space-between" style={{ height: '100%', padding: '0 20px', display: 'flex' }}>
+        <Col>
+          <div
+              className="logo"
+              style={{ display: 'flex', alignItems: 'center', height: '100%', cursor: 'pointer' }}
+              onClick={handleLogoClick} // Redirect when clicking the logo
+          >
+            <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
+          </div>
+        </Col>
 
-    >
-      <Col>
-        <div className="logo" style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-          <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
-        </div>
-      </Col>
+        <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Search
+              placeholder="Search products..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onSearch={handleSearch}
+              style={{ width: '300px' }}
+          />
+        </Col>
 
-      <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Search
-          placeholder="Search products..."
-
-          value={searchValue} // Controlled input value
-          onChange={(e) => setSearchValue(e.target.value)} // Update state on change
-          onSearch={handleSearch}
-
-          style={{ width: '300px' }}
-        />
-      </Col>
-
-      <Col>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['products']}
-          items={items}
-          style={{ border: 'none', display: 'flex', alignItems: 'center' }}
-        />
-      </Col>
-    </Row>
+        <Col>
+          <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={['products']}
+              items={items}
+              style={{ border: 'none', display: 'flex', alignItems: 'center' }}
+          />
+        </Col>
+      </Row>
   );
 };
 
