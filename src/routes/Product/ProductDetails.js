@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../CartContext';
-import { Card, Spin, Alert } from 'antd';
+import { Card, Alert } from 'antd';
 import ProductItem from './ProductItem';
+import withLoading from './withLoading'; // Import the HOC
 
-const ProductDetails = () => {
+const ProductDetails = ({ isLoading }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addToCart } = useContext(CartContext);
 
@@ -28,8 +28,6 @@ const ProductDetails = () => {
         setProduct(foundProduct);
       } catch (error) {
         setError(error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -38,7 +36,6 @@ const ProductDetails = () => {
 
   const memoizedProduct = useMemo(() => product, [product]);
 
-  if (loading) return <Spin tip="Loading product details..." />;
   if (error) return <Alert message={error} type="error" />;
 
   return (
@@ -47,7 +44,7 @@ const ProductDetails = () => {
         <>
           <ProductItem product={memoizedProduct} addToCart={addToCart} isDetailView={true} />
           {/* Display product details if available */}
-          {memoizedProduct.description   && (
+          {memoizedProduct.description && (
             <Card style={{ marginTop: '20px' }}>
               <h3>Product Details</h3>
               <p>{memoizedProduct.description}</p>
@@ -61,4 +58,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default withLoading(ProductDetails); // Wrap ProductDetails with the HOC
