@@ -64,5 +64,17 @@
       "category": "Pet Food",
       "price": 24.99
     }
+  ],
+  "users": [
+    {
+      "name": "admin",
+      "password": "admin",
+      "isAdmin": true
+    },
+    {
+      "name": "dony",
+      "password": "magrony",
+      "isAdmin": false
+    }
   ]
 }

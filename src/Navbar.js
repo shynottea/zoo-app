@@ -1,16 +1,22 @@
-import React from 'react';
+// Navbar.js
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Input, Row, Col } from 'antd';
 import zooLogo from './assets/zoo-logo.png';
+import { AuthContext } from './routes/AuthContext';
 
 const { Search } = Input;
 
 const Navbar = () => {
+  const { isAuth, logout } = useContext(AuthContext);
+
   const items = [
     { key: 'products', label: <Link to="/productlist">Products</Link> },
     { key: 'contacts', label: <Link to="/contacts">Contacts</Link> },
     { key: 'cart', label: <Link to="/cart">Cart</Link> },
-    { key: 'login', label: <Link to="/login">Login</Link> },
+    isAuth
+        ? { key: 'logout', label: <button onClick={logout}>Logout</button> }
+        : { key: 'login', label: <Link to="/login">Login</Link> },
   ];
 
   const handleSearch = (value) => {
@@ -29,13 +35,15 @@ const Navbar = () => {
         </div>
       </Col>
 
-      <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Search
-          placeholder="Search products..."
-          onSearch={handleSearch}
-          style={{ width: '300px' }}
-        />
-      </Col>
+
+        <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Search
+              placeholder="Search products..."
+              onSearch={handleSearch}
+              style={{ width: '300px' }}
+          />
+        </Col>
+
 
       <Col>
         <Menu
@@ -47,6 +55,7 @@ const Navbar = () => {
         />
       </Col>
     </Row>
+
   );
 };
 
