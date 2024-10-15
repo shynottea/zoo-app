@@ -1,53 +1,84 @@
-// Login.js
 import React, { useState, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Typography, message } from 'antd';
+
+const { Title, Text } = Typography;
 
 const Login = () => {
   const { isAuth, login, logout, username } = useContext(AuthContext);
-  const [inputUsername, setInputUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const onFinish = async (values) => {
+    const { inputUsername, password } = values;
+    setLoading(true);
+
     const success = await login(inputUsername, password);
+    setLoading(false);
+
     if (success) {
-      setError('');
+      message.success(`Welcome, ${inputUsername}!`);
       navigate('/'); // Redirect after login
     } else {
-      setError('Invalid username or password');
+      message.error('Invalid username or password');
     }
   };
 
   const handleLogout = () => {
     logout();
+    message.info('Logged out successfully');
     navigate('/');
   };
 
   return (
-      <div>
+      <div style={{ maxWidth: '400px', margin: '0 auto', padding: '50px 20px' }}>
         {isAuth ? (
-            <div>
-              <p>Welcome, {username}!</p>
-              <button onClick={handleLogout}>Logout</button>
+            <div style={{ textAlign: 'center' }}>
+              <Title level={3}>Welcome, {username}!</Title>
+              <Button type="primary" onClick={handleLogout}>
+                Logout
+              </Button>
             </div>
         ) : (
             <div>
-              <input
-                  type="text"
-                  value={inputUsername}
-                  onChange={(e) => setInputUsername(e.target.value)}
-                  placeholder="Username"
-              />
-              <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-              />
-              <button onClick={handleLogin}>Login</button>
-              {error && <p style={{ color: 'red' }}>{error}</p>}
+              <Title level={2} style={{ textAlign: 'center' }}>Login</Title>
+              <Form
+                  name="login-form"
+                  onFinish={onFinish}
+                  layout="vertical"
+              >
+                <Form.Item
+                    label="Username"
+                    name="inputUsername"
+                    rules={[
+                      { required: true, message: 'Please input your username!' },
+                    ]}
+                >
+                  <Input placeholder="Enter your username" />
+                </Form.Item>
+
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                      { required: true, message: 'Please input your password!' },
+                    ]}
+                >
+                  <Input.Password placeholder="Enter your password" />
+                </Form.Item>
+
+                <Form.Item>
+                  <Button
+                      type="primary"
+                      htmlType="submit"
+                      loading={loading}
+                      style={{ width: '100%' }}
+                  >
+                    Login
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
         )}
       </div>
