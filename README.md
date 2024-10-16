@@ -1,3 +1,4 @@
+
 # 🛍️ React E-Commerce Platform
 
 Welcome to our **ZOO-APP**! This project is a part of our React course at KBTU, where we aim to build a fully-functional e-commerce platform with product listings, cart management, user authentication, and more. We, the team **Magzhan**, **Daniyal**, and **Islam**, have put our skills together to create a smooth and interactive shopping experience.

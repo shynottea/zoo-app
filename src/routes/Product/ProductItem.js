@@ -1,46 +1,72 @@
-import React, { useState, useContext } from 'react';
-import { CartContext } from '../CartContext'; // Import CartContext
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+// ProductItem.js
+import React, { useState, useCallback, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../Cart/CartContext';
+import { AuthContext } from '../Authentication/AuthContext';
+import { Card, Button, InputNumber } from 'antd';
+import withLoading from './withLoading'; // Import the HOC
 
-function ProductItem({ product }) {
+const { Meta } = Card;
+
+function ProductItem({ product, isDetailView, isLoading }) {
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useContext(CartContext); // Use addToCart from context
-  const navigate = useNavigate(); // Initialize the useNavigate hook
-  const handleQuantityChange = (e) => {
-    const value = Math.max(1, Number(e.target.value)); // Ensure quantity is at least 1
-    setQuantity(value);
-  };
+  const { addToCart } = useContext(CartContext);
+  const { isAuth } = useContext(AuthContext);  
+  const navigate = useNavigate();
 
-  const handleAddToCart = () => {
-    addToCart({ ...product, quantity }); // Add product to cart using context function
-  };
-  const handleMoreClick = () => {
-    navigate(`/products/${product.id}`); // Navigate to the product details page
-  };
+  const handleQuantityChange = (value) => value || 1;
+
+
+  const handleAddToCart = useCallback((addToCart) => {
+    const productWithQuantity = { ...product, quantity }; // Pure data creation
+    addToCart(productWithQuantity); // Call passed function (side effect handled externally)
+  }, [product, quantity]);
+  
+
+  const handleMoreClick = useCallback((navigate) => {
+    navigate(`/products/${product.id}`); // Call passed function (side effect handled externally)
+  }, [product.id]);
+  
+
+  if (isLoading) return null; // Optionally handle loading state
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
-      <img
-        src={product.image}
-        alt={product.title}
-        style={{ width: '100%', height: 'auto' }}
-      />
-      <h2>{product.title}</h2>
-      <input
-        type="number"
-        value={quantity}
-        min="1"
-        onChange={handleQuantityChange}
-        style={{ width: '60px', marginRight: '10px' }}
-      />
-      <button onClick={handleAddToCart} style={{ marginTop: '10px' }}>
-        Add to Cart
-      </button>
-      <button onClick={handleMoreClick} style={{ marginLeft: '10px' }}>
-        More
-      </button>
-    </div>
+    <Card
+      hoverable
+      style={{ width: isDetailView ? 600 : 300 }}
+      cover={
+        <img 
+          alt={product.title} 
+          src={product.image} 
+          style={{ 
+            height: isDetailView ? 400 : 200, 
+            objectFit: 'cover' 
+          }} 
+        />
+      }
+    >
+      <Meta title={product.title} description={`Price: $${product.price}`} />
+      <div style={{ marginTop: '10px' }}>
+        {isAuth && (
+          <>
+            <InputNumber
+              min={1}
+              value={quantity}
+              onChange={(value) => setQuantity(handleQuantityChange(value))} // State update happens here
+              style={{ marginRight: '10px' }}
+            />
+            <Button onClick={() => handleAddToCart(addToCart)}>Add to Cart</Button>
+          </>
+        )}
+        {!isDetailView && (
+
+          <Button onClick={() => handleMoreClick(navigate)} style={{ MarginTop: '10px' }}>
+            More
+          </Button>
+        )}
+      </div>
+    </Card>
   );
 }
 
-export default ProductItem;
+export default withLoading(ProductItem); // Wrap ProductItem with HOC if necessary
