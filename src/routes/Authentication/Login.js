@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import { withAuth } from './withAuth';
 import { useNavigate } from 'react-router-dom';

@@ -1,4 +1,3 @@
-// api.js
 const fetchProductsData = async (serverUrl) => {
     try {
       const response = await fetch(serverUrl);

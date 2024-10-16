@@ -1,8 +1,7 @@
-// ProductList.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ProductItem from './ProductItem';
 import { Row, Col } from 'antd';
-import withLoading from './withLoading'; // Import the HOC
+import withLoading from './withLoading';
 import { fetchProductsData } from './fetch';
 
 
