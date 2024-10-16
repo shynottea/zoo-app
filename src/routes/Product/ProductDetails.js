@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { CartContext } from '../CartContext';
+import { CartContext } from '../Cart/CartContext';
 import { Card, Alert } from 'antd';
 import ProductItem from './ProductItem';
 import withLoading from './withLoading'; // Import the HOC

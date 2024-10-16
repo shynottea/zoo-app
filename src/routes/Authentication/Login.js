@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react';
-import { AuthContext } from './AuthContext';
+// Login.js
+import React, { useState } from 'react';
+import { withAuth } from './withAuth';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Typography, message } from 'antd';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
-const Login = () => {
-  const { isAuth, login, logout, username } = useContext(AuthContext);
+const PureLogin = ({ isAuth, login, logout, username }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const Login = () => {
 
     if (success) {
       message.success(`Welcome, ${inputUsername}!`);
-      navigate('/'); // Redirect after login
+      navigate('/');
     } else {
       message.error('Invalid username or password');
     }
@@ -43,31 +43,21 @@ const Login = () => {
         ) : (
             <div>
               <Title level={2} style={{ textAlign: 'center' }}>Login</Title>
-              <Form
-                  name="login-form"
-                  onFinish={onFinish}
-                  layout="vertical"
-              >
+              <Form name="login-form" onFinish={onFinish} layout="vertical">
                 <Form.Item
                     label="Username"
                     name="inputUsername"
-                    rules={[
-                      { required: true, message: 'Please input your username!' },
-                    ]}
+                    rules={[{ required: true, message: 'Please input your username!' }]}
                 >
                   <Input placeholder="Enter your username" />
                 </Form.Item>
-
                 <Form.Item
                     label="Password"
                     name="password"
-                    rules={[
-                      { required: true, message: 'Please input your password!' },
-                    ]}
+                    rules={[{ required: true, message: 'Please input your password!' }]}
                 >
                   <Input.Password placeholder="Enter your password" />
                 </Form.Item>
-
                 <Form.Item>
                   <Button
                       type="primary"
@@ -85,4 +75,5 @@ const Login = () => {
   );
 };
 
-export default Login;
+// Wrap PureLogin with the HOC
+export default withAuth(PureLogin);
