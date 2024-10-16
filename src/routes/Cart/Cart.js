@@ -49,10 +49,6 @@ const PureCart = ({ isAuth, username, logout }) => {
             <Title level={2}>Your Cart</Title>
             {isAuth ? (
                 <>
-                    <Text strong>Welcome, {username}!</Text>
-                    <Button type="link" onClick={logout} style={{ marginLeft: '10px' }}>
-                        Logout
-                    </Button>
                     <Divider />
                     {cart.length === 0 ? (
                         <Text>No items in the cart</Text>
