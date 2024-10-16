@@ -1,11 +1,13 @@
+// Cart.js
 import React, { useContext } from 'react';
-import { CartContext } from './CartContext';
+import { CartContext } from './CartContext'; // Directly import the CartContext
 import { Table, Button, Typography, Divider } from 'antd';
+import { withAuth } from '../Authentication/withAuth'; // Import the HOC
 
 const { Title, Text } = Typography;
 
-function Cart() {
-    const { cart, removeFromCart } = useContext(CartContext); // Get cart and removeFromCart from context
+const PureCart = ({ isAuth, username, logout }) => {
+    const { cart, removeFromCart } = useContext(CartContext); // Access cart context directly
 
     const cartTotal = cart.length;
     const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -45,25 +47,37 @@ function Cart() {
     return (
         <div style={{ padding: '20px', border: '1px solid #ccc', width: '40%', marginLeft: '20px' }}>
             <Title level={2}>Your Cart</Title>
-            {cart.length === 0 ? (
-                <Text>No items in the cart</Text>
-            ) : (
+            {isAuth ? (
                 <>
-                    <Table
-                        dataSource={cart}
-                        columns={columns}
-                        rowKey="id"
-                        pagination={false}
-                        style={{ marginBottom: '20px' }}
-                    />
+                    <Text strong>Welcome, {username}!</Text>
+                    <Button type="link" onClick={logout} style={{ marginLeft: '10px' }}>
+                        Logout
+                    </Button>
                     <Divider />
-                    <Text strong>Total Items: {cartTotal}</Text>
-                    <br />
-                    <Text strong>Total Price: ${totalPrice.toFixed(2)}</Text>
+                    {cart.length === 0 ? (
+                        <Text>No items in the cart</Text>
+                    ) : (
+                        <>
+                            <Table
+                                dataSource={cart}
+                                columns={columns}
+                                rowKey="id"
+                                pagination={false}
+                                style={{ marginBottom: '20px' }}
+                            />
+                            <Divider />
+                            <Text strong>Total Items: {cartTotal}</Text>
+                            <br />
+                            <Text strong>Total Price: ${totalPrice.toFixed(2)}</Text>
+                        </>
+                    )}
                 </>
+            ) : (
+                <Text>Please log in to view your cart.</Text>
             )}
         </div>
     );
-}
+};
 
-export default Cart;
+// Wrap the Cart component with the withAuth HOC
+export default withAuth(PureCart);
