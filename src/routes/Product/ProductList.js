@@ -9,21 +9,25 @@ const ProductList = ({ searchQuery }) => {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
 
+  const fetchProductsData = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/products');
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      return [];
+    }
+  };
+  
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/products');
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    setLoading(true);
+    fetchProductsData().then(data => {
+      setProducts(data);
+      setLoading(false);
+    });
   }, []);
+  
 
   const addToCart = useCallback((productToAdd) => {
     setCart((prevCart) => {
