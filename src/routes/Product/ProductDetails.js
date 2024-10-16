@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../CartContext';
 import { Card, Alert } from 'antd';
+import { fetchProductsData } from './fetch'; // Adjust the import path if needed
 import ProductItem from './ProductItem';
 import withLoading from './withLoading'; // Import the HOC
 
@@ -10,17 +11,13 @@ const ProductDetails = ({ isLoading }) => {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const { addToCart } = useContext(CartContext);
-
+  const server='http://localhost:5000/products'
   useEffect(() => {
     const fetchProductById = async () => {
       try {
-        const response = await fetch('http://localhost:5000/products');
-        if (!response.ok) {
-          throw new Error(`Error fetching products: ${response.status}`);
-        }
+        const data = await fetchProductsData(server); // Use the fetchProductsData function
 
-        const data = await response.json();
-        const foundProduct = data.find(product => product.id == parseInt(id, 10));
+        const foundProduct = data.find(product => product.id === parseInt(id, 10));
         if (!foundProduct) {
           throw new Error('Product not found');
         }

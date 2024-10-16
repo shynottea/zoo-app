@@ -3,46 +3,42 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ProductItem from './ProductItem';
 import { Row, Col } from 'antd';
 import withLoading from './withLoading'; // Import the HOC
+import { fetchProductsData } from './fetch';
+
 
 const ProductList = ({ searchQuery }) => {  
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
+  const server = 'http://localhost:5000/products';
 
-  const fetchProductsData = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/products');
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      return [];
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);  // Side effect: setting loading state
+      const data = await fetchProductsData(server);  // Fetching data
+      setProducts(data);  // Side effect: setting products state
+      setLoading(false);  // Side effect: setting loading state
+    };
+
+    fetchData();
+  }, []); 
+
+  const pureAddToCart = (cart, productToAdd) => {
+    const existingProductIndex = cart.findIndex(item => item.id === productToAdd.id);
+  
+    if (existingProductIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingProductIndex].quantity += productToAdd.quantity;
+      return updatedCart;
+    } else {
+      return [...cart, productToAdd];
     }
   };
-  
-  useEffect(() => {
-    setLoading(true);
-    fetchProductsData().then(data => {
-      setProducts(data);
-      setLoading(false);
-    });
-  }, []);
-  
 
   const addToCart = useCallback((productToAdd) => {
-    setCart((prevCart) => {
-      const existingProductIndex = prevCart.findIndex(item => item.id === productToAdd.id);
-
-      if (existingProductIndex !== -1) {
-        const updatedCart = [...prevCart];
-        updatedCart[existingProductIndex].quantity += productToAdd.quantity;
-        return updatedCart;
-      } else {
-        return [...prevCart, productToAdd];
-      }
-    });
+    setCart((prevCart) => pureAddToCart(prevCart, productToAdd));
   }, []);
-
+    
   // Search products
   const filteredProducts = useMemo(() => {
     return products.filter(product =>

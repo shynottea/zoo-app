@@ -14,17 +14,19 @@ function ProductItem({ product, isDetailView, isLoading }) {
   const { isAuth } = useContext(AuthContext);  
   const navigate = useNavigate();
 
-  const handleQuantityChange = (value) => {
-    setQuantity(value);
-  };
+  const handleQuantityChange = (value) => value || 1;
 
-  const handleAddToCart = useCallback(() => {
-    addToCart({ ...product, quantity });
-  }, [addToCart, product, quantity]);
 
-  const handleMoreClick = useCallback(() => {
-    navigate(`/products/${product.id}`);
-  }, [navigate, product.id]);
+  const handleAddToCart = useCallback((addToCart) => {
+    const productWithQuantity = { ...product, quantity }; // Pure data creation
+    addToCart(productWithQuantity); // Call passed function (side effect handled externally)
+  }, [product, quantity]);
+  
+
+  const handleMoreClick = useCallback((navigate) => {
+    navigate(`/products/${product.id}`); // Call passed function (side effect handled externally)
+  }, [product.id]);
+  
 
   if (isLoading) return null; // Optionally handle loading state
 
@@ -50,16 +52,14 @@ function ProductItem({ product, isDetailView, isLoading }) {
             <InputNumber
               min={1}
               value={quantity}
-              onChange={handleQuantityChange}
+              onChange={(value) => setQuantity(handleQuantityChange(value))} // State update happens here
               style={{ marginRight: '10px' }}
             />
-            <Button type="primary" onClick={handleAddToCart}>
-              Add to Cart
-            </Button>
+            <Button onClick={() => handleAddToCart(addToCart)}>Add to Cart</Button>
           </>
         )}
         {!isDetailView && (
-          <Button onClick={handleMoreClick} style={{ marginLeft: '10px' }}>
+          <Button onClick={() => handleMoreClick(navigate)} style={{ marginLeft: '10px' }}>
             More
           </Button>
         )}
