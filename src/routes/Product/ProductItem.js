@@ -1,10 +1,9 @@
-// ProductItem.js
 import React, { useState, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../Cart/CartContext';
 import { AuthContext } from '../Authentication/AuthContext';
 import { Card, Button, InputNumber } from 'antd';
-import withLoading from './withLoading'; // Import the HOC
+import withLoading from './withLoading';
 
 const { Meta } = Card;
 
@@ -26,7 +25,7 @@ function ProductItem({ product, isDetailView, isLoading }) {
     navigate(`/products/${product.id}`);
   }, [navigate, product.id]);
 
-  if (isLoading) return null; // Optionally handle loading state
+  if (isLoading) return null;
 
   return (
     <Card
@@ -68,4 +67,4 @@ function ProductItem({ product, isDetailView, isLoading }) {
   );
 }
 
-export default withLoading(ProductItem); // Wrap ProductItem with HOC if necessary
+export default withLoading(ProductItem);

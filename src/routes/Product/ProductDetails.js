@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CartContext } from '../Cart/CartContext';
 import { Card, Alert } from 'antd';
 import ProductItem from './ProductItem';
-import withLoading from './withLoading'; // Import the HOC
+import withLoading from './withLoading';
 
 const ProductDetails = ({ isLoading }) => {
   const { id } = useParams();
@@ -43,7 +43,6 @@ const ProductDetails = ({ isLoading }) => {
       {memoizedProduct ? (
         <>
           <ProductItem product={memoizedProduct} addToCart={addToCart} isDetailView={true} />
-          {/* Display product details if available */}
           {memoizedProduct.description && (
             <Card style={{ marginTop: '20px' }}>
               <h3>Product Details</h3>
@@ -58,4 +57,4 @@ const ProductDetails = ({ isLoading }) => {
   );
 };
 
-export default withLoading(ProductDetails); // Wrap ProductDetails with the HOC
+export default withLoading(ProductDetails);

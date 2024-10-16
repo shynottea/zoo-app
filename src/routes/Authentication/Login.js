@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import { withAuth } from './withAuth';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +5,7 @@ import { Form, Input, Button, Typography, message } from 'antd';
 
 const { Title } = Typography;
 
-const PureLogin = ({ isAuth, login, logout, username }) => {
+const Login = ({ isAuth, login, logout, username }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -75,5 +74,4 @@ const PureLogin = ({ isAuth, login, logout, username }) => {
   );
 };
 
-// Wrap PureLogin with the HOC
-export default withAuth(PureLogin);
+export default withAuth(Login);

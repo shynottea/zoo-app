@@ -1,8 +1,7 @@
-// ProductList.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ProductItem from './ProductItem';
 import { Row, Col } from 'antd';
-import withLoading from './withLoading'; // Import the HOC
+import withLoading from './withLoading';
 
 const ProductList = ({ searchQuery }) => {  
   const [products, setProducts] = useState([]);
@@ -39,14 +38,12 @@ const ProductList = ({ searchQuery }) => {
     });
   }, []);
 
-  // Search products
   const filteredProducts = useMemo(() => {
     return products.filter(product =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [products, searchQuery]);
 
-  // Memoized product list
   const memoizedProductList = useMemo(() => {
     return filteredProducts.map((product) => (
       <Col key={product.id} xs={24} sm={12} md={8} lg={8} xl={6}>
@@ -64,4 +61,4 @@ const ProductList = ({ searchQuery }) => {
   );
 };
 
-export default withLoading(ProductList); // Wrap ProductList with HOC
+export default withLoading(ProductList);
