@@ -1,71 +1,42 @@
-ghghghg
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🛍️ React E-Commerce Platform
 
-## Available Scripts
+Welcome to our **ZOO-APP**! This project is a part of our React course at KBTU, where we aim to build a fully-functional e-commerce platform with product listings, cart management, user authentication, and more. We, the team **Magzhan**, **Daniyal**, and **Islam**, have put our skills together to create a smooth and interactive shopping experience.
 
-In the project directory, you can run:
+## 🚀 Tech Stack
+- **Frontend:** React, React Router, Ant Design, Context API
+- **Backend:** JSON Server (for development)
+- **Styling:** Ant Design (UI framework)
+- **State Management:** Context API with custom hooks
+- **Authentication:** Cookies for session management
 
-### `npm start`
+## 📚 Features
+- **User Authentication**: Login and logout functionality using cookies to persist the user session.
+- **Product Management**: Display a list of products with detailed views.
+- **Cart System**: Add products to the cart, update quantities, and remove items.
+- **Responsive Design**: Optimized for both desktop and mobile views.
+- **Search Functionality**: Search for products directly from the navigation bar.
+- **Navigation**: Easy navigation with React Router and a sleek Ant Design Navbar.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🧑‍💻 Team Members
+| Name    | Role       | Email                         |
+|---------|------------|-------------------------------|
+| Magzhan | Developer  | m.kulekesh2005@gmail.com      |
+| Daniyal | Developer  | daniyal.mambetov.04@gmail.com |
+| Islam   | Developer  | kogsaitama@gmail.com          |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🏫 About Us
+We are students of **Kazakh-British Technical University (KBTU)**, currently enrolled in a **React course**. This project represents our learning journey and passion for web development. We have aimed to implement best practices and cutting-edge techniques in React.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
+- Node.js (>= 14.x)
+- npm or yarn
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Installation
+- git clone https://github.com/shynottea/zoo-app.git
+- cd zoo-app
+- npm install js-cookie
+- npm install antd
+- npx json-server --watch db.json --port 5000
+- npm start
