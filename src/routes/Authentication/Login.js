@@ -75,5 +75,4 @@ const PureLogin = ({ isAuth, login, logout, username }) => {
   );
 };
 
-// Wrap PureLogin with the HOC
 export default withAuth(PureLogin);

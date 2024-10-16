@@ -10,5 +10,5 @@ const fetchProductsData = async (serverUrl) => {
     }
   };
   
-  export { fetchProductsData }; // Named export
+  export { fetchProductsData }; 
   

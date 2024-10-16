@@ -11,12 +11,11 @@ const Navbar = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
 
-  // Function to handle navigation and reset the search
   const handleLogoClick = () => {
-    setSearchValue(''); // Reset search input
-    navigate('/productlist', { replace: true }); // Navigate and replace history to refresh page
+    setSearchValue(''); 
+    navigate('/productlist', { replace: true }); 
     if (onSearch) {
-      onSearch(''); // Clear search results
+      onSearch(''); 
     }
   };
 
@@ -24,7 +23,7 @@ const Navbar = ({ onSearch }) => {
     if (onSearch) {
       onSearch(value);
     }
-    setSearchValue(''); // Clear the search input after search
+    setSearchValue(''); 
   };
 
   const items = [
@@ -52,7 +51,7 @@ const Navbar = ({ onSearch }) => {
           <div
               className="logo"
               style={{ display: 'flex', alignItems: 'center', height: '100%', cursor: 'pointer' }}
-              onClick={handleLogoClick} // Redirect when clicking the logo
+              onClick={handleLogoClick} 
           >
             <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
           </div>

@@ -2,7 +2,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
-// Higher-order component to inject authentication context
 export const withAuth = (WrappedComponent) => (props) => {
     const { isAuth, username, login, logout } = useContext(AuthContext);
 
