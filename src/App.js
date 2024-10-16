@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import Cart from './routes/Cart/Cart';
 import ProductList from './routes/Product/ProductList';
 import ProductDetails from './routes/Product/ProductDetails';
+import ProductLayout from './routes/Product/ProductLayout';
 import Contacts from './routes/Contacts';
 import Login from './routes/Authentication/Login';
 
@@ -24,7 +25,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === '/productlist') {
+    if (location.pathname === '/products') {
       setSearchQuery('');
     }
   }, [location.pathname]); 
@@ -45,12 +46,16 @@ const App = () => {
               }}
             >
               <Routes>
-                <Route path="/productlist" element={<ProductList searchQuery={searchQuery} />} />
-                <Route path="/products/:id" element={<ProductDetails />} />
+                {/*<Route path="/productlist" element={<ProductList searchQuery={searchQuery} />} />*/}
+                {/*<Route path="/products/:id" element={<ProductDetails />} />*/}
+                <Route path="/products" element={<ProductLayout />}>
+                  <Route index element={<ProductList searchQuery={searchQuery} />} />
+                  <Route path=":id" element={<ProductDetails />} />
+                </Route>
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Navigate to="/productlist" />} />
+                <Route path="/" element={<Navigate to="/products" />} />
               </Routes>
             </Content>
           </Layout>

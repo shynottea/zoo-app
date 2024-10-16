@@ -27,7 +27,7 @@ const Login = ({ isAuth, login, logout, username }) => {
   const handleLogout = () => {
     logout();
     message.info('Logged out successfully');
-    navigate('/');
+    navigate('/products');
   };
 
   return (

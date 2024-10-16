@@ -13,7 +13,7 @@ const Navbar = ({ onSearch }) => {
 
   const handleLogoClick = () => {
     setSearchValue('');
-    navigate('/productlist', { replace: true });
+    navigate('/products', { replace: true });
     if (onSearch) {
       onSearch('');
     }

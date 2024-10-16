@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
         setUsername('');
         Cookies.remove('user');
         console.log('Logged out');
-        navigate('/productlist', { replace: true });
+        navigate('/products', { replace: true });
     };
 
     return (
