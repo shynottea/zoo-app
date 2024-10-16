@@ -14,10 +14,10 @@ const ProductList = ({ searchQuery }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);  // Side effect: setting loading state
-      const data = await fetchProductsData(server);  // Fetching data
-      setProducts(data);  // Side effect: setting products state
-      setLoading(false);  // Side effect: setting loading state
+      setLoading(true);  
+      const data = await fetchProductsData(server);  
+      setProducts(data);  
+      setLoading(false);  
     };
 
     fetchData();
@@ -39,14 +39,12 @@ const ProductList = ({ searchQuery }) => {
     setCart((prevCart) => pureAddToCart(prevCart, productToAdd));
   }, []);
     
-  // Search products
   const filteredProducts = useMemo(() => {
     return products.filter(product =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [products, searchQuery]);
 
-  // Memoized product list
   const memoizedProductList = useMemo(() => {
     return filteredProducts.map((product) => (
       <Col key={product.id} xs={24} sm={12} md={8} lg={8} xl={6}>
@@ -64,4 +62,4 @@ const ProductList = ({ searchQuery }) => {
   );
 };
 
-export default withLoading(ProductList); // Wrap ProductList with HOC
+export default withLoading(ProductList); 

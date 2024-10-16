@@ -54,4 +54,4 @@ const ProductDetails = ({ isLoading }) => {
   );
 };
 
-export default withLoading(ProductDetails); // Wrap ProductDetails with the HOC
+export default withLoading(ProductDetails); 

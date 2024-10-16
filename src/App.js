@@ -17,19 +17,17 @@ const { Header, Content } = Layout;
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const location = useLocation(); // Use useLocation to access the current route
+  const location = useLocation(); 
 
   const handleSearch = (value) => {
     setSearchQuery(value.toLowerCase());
   };
 
   useEffect(() => {
-    // Reset searchQuery when navigating to ProductList
     if (location.pathname === '/productlist') {
       setSearchQuery('');
     }
-  }, [location.pathname]); // Depend on the pathname to reset search query
-
+  }, [location.pathname]); 
   return (
     <AuthProvider>
       <CartProvider>

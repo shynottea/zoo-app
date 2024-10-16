@@ -1,13 +1,13 @@
-// Cart.js
+
 import React, { useContext } from 'react';
-import { CartContext } from './CartContext'; // Directly import the CartContext
+import { CartContext } from './CartContext'; 
 import { Table, Button, Typography, Divider } from 'antd';
-import { withAuth } from '../Authentication/withAuth'; // Import the HOC
+import { withAuth } from '../Authentication/withAuth'; 
 
 const { Title, Text } = Typography;
 
 const PureCart = ({ isAuth, username, logout }) => {
-    const { cart, removeFromCart } = useContext(CartContext); // Access cart context directly
+    const { cart, removeFromCart } = useContext(CartContext); 
 
     const cartTotal = cart.length;
     const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -75,5 +75,4 @@ const PureCart = ({ isAuth, username, logout }) => {
     );
 };
 
-// Wrap the Cart component with the withAuth HOC
 export default withAuth(PureCart);
