@@ -12,10 +12,10 @@ const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    setSearchValue(''); 
-    navigate('/productlist', { replace: true }); 
+    setSearchValue('');
+    navigate('/productlist', { replace: true });
     if (onSearch) {
-      onSearch(''); 
+      onSearch('');
     }
   };
 
@@ -23,27 +23,38 @@ const Navbar = ({ onSearch }) => {
     if (onSearch) {
       onSearch(value);
     }
-    setSearchValue(''); 
+    setSearchValue('');
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   const items = [
     {
       key: 'products',
       label: (
-          <span
-              onClick={handleLogoClick}
-              style={{ cursor: 'pointer' }}
-          >
-          Products
-        </span>
+          <span onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+        Products
+      </span>
       ),
     },
     { key: 'contacts', label: <Link to="/contacts">Contacts</Link> },
     isAuth && { key: 'cart', label: <Link to="/cart">Cart</Link> },
-    isAuth
-        ? { key: 'logout', label: <Button onClick={logout}>Logout</Button> }
-        : { key: 'login', label: <Link to="/login">Login</Link> },
+    isAuth ? (
+        {
+          key: 'logout',
+          label: (
+              <span onClick={handleLogout} style={{ cursor: 'pointer'}}>
+          Logout
+        </span>
+          ),
+        }
+    ) : (
+        { key: 'login', label: <Link to="/login">Login</Link> }
+    ),
   ].filter(Boolean);
+
 
   return (
       <Row align="middle" justify="space-between" style={{ height: '100%', padding: '0 20px', display: 'flex' }}>
@@ -51,7 +62,7 @@ const Navbar = ({ onSearch }) => {
           <div
               className="logo"
               style={{ display: 'flex', alignItems: 'center', height: '100%', cursor: 'pointer' }}
-              onClick={handleLogoClick} 
+              onClick={handleLogoClick}
           >
             <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
           </div>

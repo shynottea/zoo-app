@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuth, setIsAuth] = useState(false);
     const [username, setUsername] = useState('');
+    const navigate = useNavigate(); // Use navigate inside the component
 
     useEffect(() => {
         const user = Cookies.get('user');
@@ -45,6 +47,7 @@ export const AuthProvider = ({ children }) => {
         setUsername('');
         Cookies.remove('user');
         console.log('Logged out');
+        navigate('/productlist', { replace: true }); // Correctly using navigate here
     };
 
     return (
