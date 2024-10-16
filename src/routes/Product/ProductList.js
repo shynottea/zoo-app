@@ -1,7 +1,8 @@
 // ProductList.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ProductItem from './ProductItem';
-import { Row, Col, Spin } from 'antd';
+import { Row, Col } from 'antd';
+import withLoading from './withLoading'; // Import the HOC
 
 const ProductList = ({ searchQuery }) => {  
   const [products, setProducts] = useState([]);
@@ -41,7 +42,7 @@ const ProductList = ({ searchQuery }) => {
   // Search products
   const filteredProducts = useMemo(() => {
     return products.filter(product =>
-      product.title.toLowerCase().includes(searchQuery)
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [products, searchQuery]);
 
@@ -56,15 +57,11 @@ const ProductList = ({ searchQuery }) => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {loading ? (
-        <Spin tip="Loading products..." />
-      ) : (
-        <Row gutter={[16, 16]}>
-          {memoizedProductList}
-        </Row>
-      )}
+      <Row gutter={[16, 16]}>
+        {memoizedProductList}
+      </Row>
     </div>
   );
 };
 
-export default ProductList;
+export default withLoading(ProductList); // Wrap ProductList with HOC

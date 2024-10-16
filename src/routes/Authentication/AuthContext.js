@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        // Check for user info in cookies when the component mounts
         const user = Cookies.get('user');
         if (user) {
             setIsAuth(true);
@@ -29,7 +28,6 @@ export const AuthProvider = ({ children }) => {
             if (user) {
                 setIsAuth(true);
                 setUsername(user.name);
-                // Save user info to cookies
                 Cookies.set('user', user.name, { expires: 7 });
                 console.log('Login successful for user:', user.name);
                 return true;
@@ -46,7 +44,6 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setIsAuth(false);
         setUsername('');
-        // Remove user info from cookies
         Cookies.remove('user');
         console.log('Logged out');
     };
