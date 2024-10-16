@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, Input, Row, Col, Button } from 'antd';
 import zooLogo from './assets/zoo-logo.png';
-import { AuthContext } from './routes/AuthContext';
+import { AuthContext } from './routes/Authentication/AuthContext';
 
 const { Search } = Input;
 

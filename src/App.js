@@ -4,14 +4,14 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import Navbar from './Navbar';
-import Cart from './routes/Cart';
+import Cart from './routes/Cart/Cart';
 import ProductList from './routes/Product/ProductList';
 import ProductDetails from './routes/Product/ProductDetails';
 import Contacts from './routes/Contacts';
-import Login from './routes/Login';
+import Login from './routes/Authentication/Login';
 
-import { CartProvider } from './routes/CartContext';
-import { AuthProvider } from './routes/AuthContext';
+import { CartProvider } from './routes/Cart/CartContext';
+import { AuthProvider } from './routes/Authentication/AuthContext';
 
 const { Header, Content } = Layout;
 

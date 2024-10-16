@@ -1,8 +1,8 @@
 // ProductItem.js
 import React, { useState, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../CartContext';
-import { AuthContext } from '../AuthContext';  
+import { CartContext } from '../Cart/CartContext';
+import { AuthContext } from '../Authentication/AuthContext';
 import { Card, Button, InputNumber } from 'antd';
 import withLoading from './withLoading'; // Import the HOC
 
@@ -59,7 +59,8 @@ function ProductItem({ product, isDetailView, isLoading }) {
           </>
         )}
         {!isDetailView && (
-          <Button onClick={() => handleMoreClick(navigate)} style={{ marginLeft: '10px' }}>
+
+          <Button onClick={() => handleMoreClick(navigate)} style={{ MarginTop: '10px' }}>
             More
           </Button>
         )}
