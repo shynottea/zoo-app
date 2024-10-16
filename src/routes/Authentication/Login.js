@@ -6,7 +6,7 @@ import { Form, Input, Button, Typography, message } from 'antd';
 
 const { Title } = Typography;
 
-const PureLogin = ({ isAuth, login, logout, username }) => {
+const Login = ({ isAuth, login, logout, username }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -75,4 +75,4 @@ const PureLogin = ({ isAuth, login, logout, username }) => {
   );
 };
 
-export default withAuth(PureLogin);
+export default withAuth(Login);
