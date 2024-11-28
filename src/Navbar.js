@@ -36,6 +36,7 @@ const Navbar = ({ onSearch }) => {
         <span onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
           Products
         </span>
+
       ),
     },
     { key: 'contacts', label: <Link to="/contacts">Contacts</Link> },
@@ -74,7 +75,6 @@ const Navbar = ({ onSearch }) => {
           <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
         </div>
       </Col>
-
       <Col
         span={12}
         style={{
