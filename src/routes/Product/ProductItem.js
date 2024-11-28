@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button, InputNumber } from 'antd';
+import { Card, Button, InputNumber, Rate } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 
@@ -40,7 +40,12 @@ function ProductItem({ product, isDetailView }) {
         />
       }
     >
-      <Meta title={product.title} description={`Price: $${product.price}`} />
+      <Meta title={product.title} description={
+        <>
+          <p>Price: ${product.price}</p>
+          <Rate disabled defaultValue={product.rating} allowHalf />
+        </>
+        } />
       <div style={{ marginTop: '10px' }}>
         {isAuth && (
           <>

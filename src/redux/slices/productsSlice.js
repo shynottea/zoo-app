@@ -30,6 +30,9 @@ const productsSlice = createSlice({
     productDetails: null,
     status: 'idle',
     error: null,
+    currentPage: 1,
+    totalPages: 1,
+    limit: 6,
   },
   reducers: {
     // CRUD
@@ -41,6 +44,7 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.items = action.payload;
+        state.totalPages = Math.ceil(action.payload.length / state.limit);
         state.status = 'succeeded';
       })
       .addCase(fetchProducts.rejected, (state, action) => {
