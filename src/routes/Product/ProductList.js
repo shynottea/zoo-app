@@ -11,7 +11,7 @@ const ProductList = ({ searchQuery }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 99999]);
   const [sortOption, setSortOption] = useState('priceLowToHigh'); 
-  const [page, setPage] = useState(1); // Page state
+  const [page, setPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
 
   const categories = useMemo(() => {
@@ -56,7 +56,6 @@ const ProductList = ({ searchQuery }) => {
   }, [products, searchQuery, selectedCategories, priceRange, sortOption]);
 
   useEffect(() => {
-    // Reset pagination when filtered products change
     setPage(1);
   }, [filteredProducts]);
 
