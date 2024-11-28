@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from 'antd';
+import { useDispatch } from 'react-redux';
+import { setAuthFromCookie } from './redux/slices/authSlice';
 
 import Navbar from './Navbar';
 import Cart from './routes/Cart/Cart';
@@ -10,14 +12,16 @@ import ProductDetails from './routes/Product/ProductDetails';
 import Contacts from './routes/Contacts';
 import Login from './routes/Authentication/Login';
 
-import { CartProvider } from './routes/Cart/CartContext';
-import { AuthProvider } from './routes/Authentication/AuthContext';
-
 const { Header, Content } = Layout;
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation(); 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setAuthFromCookie());
+  }, [dispatch]);
 
   const handleSearch = (value) => {
     setSearchQuery(value.toLowerCase());
@@ -29,34 +33,30 @@ const App = () => {
     }
   }, [location.pathname]); 
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Layout>
-          <Header>
-            <div className="demo-logo" />
-            <Navbar onSearch={handleSearch} />
-          </Header>
-          <Layout>
-            <Content
-              style={{
-                padding: 24,
-                margin: 0,
-                minHeight: 280,
-              }}
-            >
-              <Routes>
-                <Route path="/productlist" element={<ProductList searchQuery={searchQuery} />} />
-                <Route path="/products/:id" element={<ProductDetails />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/contacts" element={<Contacts />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Navigate to="/productlist" />} />
-              </Routes>
-            </Content>
-          </Layout>
-        </Layout>
-      </CartProvider>
-    </AuthProvider>
+    <Layout>
+      <Header>
+        <div className="demo-logo" />
+        <Navbar onSearch={handleSearch} />
+      </Header>
+      <Layout>
+        <Content
+          style={{
+            padding: 24,
+            margin: 0,
+            minHeight: 280,
+          }}
+        >
+          <Routes>
+            <Route path="/productlist" element={<ProductList searchQuery={searchQuery} />} />
+            <Route path="/products/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/productlist" />} />
+          </Routes>
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 

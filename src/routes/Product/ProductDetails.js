@@ -1,49 +1,36 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { CartContext } from '../Cart/CartContext';
-import { Card, Alert } from 'antd';
-import { fetchProductsData } from './fetch'; 
+import { Card, Alert, Spin } from 'antd';
 import ProductItem from './ProductItem';
-import withLoading from './withLoading'; 
-const ProductDetails = ({ isLoading }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductById } from '../../redux/slices/productsSlice';
+
+const ProductDetails = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [error, setError] = useState(null);
-  const { addToCart } = useContext(CartContext);
-  const server='http://localhost:5000/products'
+  const dispatch = useDispatch();
+  const { productDetails: product, status, error } = useSelector((state) => state.products);
+
   useEffect(() => {
-    const fetchProductById = async () => {
-      try {
-        const data = await fetchProductsData(server); 
+    dispatch(fetchProductById(id));
+  }, [dispatch, id]);
 
-        const foundProduct = data.find(product => product.id == parseInt(id, 10));
-        if (!foundProduct) {
-          throw new Error('Product not found');
-        }
+  if (status === 'loading') {
+    return <Spin tip="Loading..." />;
+  }
 
-        setProduct(foundProduct);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchProductById();
-  }, [id]);
-
-  const memoizedProduct = useMemo(() => product, [product]);
-
-  if (error) return <Alert message={error} type="error" />;
+  if (status === 'failed') {
+    return <Alert message="Error" description={error} type="error" showIcon />;
+  }
 
   return (
     <div style={{ padding: '20px' }}>
-      {memoizedProduct ? (
+      {product ? (
         <>
-          <ProductItem product={memoizedProduct} addToCart={addToCart} isDetailView={true} />
-          {}
-          {memoizedProduct.description && (
+          <ProductItem product={product} isDetailView={true} />
+          {product.description && (
             <Card style={{ marginTop: '20px' }}>
               <h3>Product Details</h3>
-              <p>{memoizedProduct.description}</p>
+              <p>{product.description}</p>
             </Card>
           )}
         </>
@@ -54,4 +41,4 @@ const ProductDetails = ({ isLoading }) => {
   );
 };
 
-export default withLoading(ProductDetails); 
+export default ProductDetails;

@@ -1,64 +1,44 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import ProductItem from './ProductItem';
-import { Row, Col } from 'antd';
-import withLoading from './withLoading';
-import { fetchProductsData } from './fetch';
+import { Row, Col, Spin, Alert } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../../redux/slices/productsSlice';
 
-
-const ProductList = ({ searchQuery }) => {  
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]);
-  const server = 'http://localhost:5000/products';
+const ProductList = ({ searchQuery }) => {
+  const dispatch = useDispatch();
+  const { items: products, status, error } = useSelector((state) => state.products);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);  
-      const data = await fetchProductsData(server);  
-      setProducts(data);  
-      setLoading(false);  
-    };
-
-    fetchData();
-  }, []); 
-
-  const pureAddToCart = (cart, productToAdd) => {
-    const existingProductIndex = cart.findIndex(item => item.id === productToAdd.id);
-  
-    if (existingProductIndex !== -1) {
-      const updatedCart = [...cart];
-      updatedCart[existingProductIndex].quantity += productToAdd.quantity;
-      return updatedCart;
-    } else {
-      return [...cart, productToAdd];
+    if (status === 'idle') {
+      dispatch(fetchProducts());
     }
-  };
+  }, [dispatch, status]);
 
-  const addToCart = useCallback((productToAdd) => {
-    setCart((prevCart) => pureAddToCart(prevCart, productToAdd));
-  }, []);
-    
   const filteredProducts = useMemo(() => {
-    return products.filter(product =>
+    return products.filter((product) =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [products, searchQuery]);
 
-  const memoizedProductList = useMemo(() => {
-    return filteredProducts.map((product) => (
-      <Col key={product.id} xs={24} sm={12} md={8} lg={8} xl={6}>
-        <ProductItem product={product} addToCart={addToCart} />
-      </Col>
-    ));
-  }, [filteredProducts, addToCart]);
+  if (status === 'loading') {
+    return <Spin tip="Loading..." />;
+  }
+
+  if (status === 'failed') {
+    return <Alert message="Error" description={error} type="error" showIcon />;
+  }
 
   return (
     <div style={{ padding: '20px' }}>
       <Row gutter={[16, 16]}>
-        {memoizedProductList}
+        {filteredProducts.map((product) => (
+          <Col key={product.id} xs={24} sm={12} md={8} lg={8} xl={6}>
+            <ProductItem product={product} isDetailView={false} />
+          </Col>
+        ))}
       </Row>
     </div>
   );
 };
 
-export default withLoading(ProductList); 
+export default ProductList;

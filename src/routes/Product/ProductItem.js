@@ -1,46 +1,42 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../Cart/CartContext';
-import { AuthContext } from '../Authentication/AuthContext';
 import { Card, Button, InputNumber } from 'antd';
-import withLoading from './withLoading';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../redux/slices/cartSlice';
 
 const { Meta } = Card;
 
-function ProductItem({ product, isDetailView, isLoading }) {
+function ProductItem({ product, isDetailView }) {
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useContext(CartContext);
-  const { isAuth } = useContext(AuthContext);  
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleQuantityChange = (value) => value || 1;
+  const handleQuantityChange = (value) => {
+    setQuantity(value || 1);
+  };
 
+  const handleAddToCart = useCallback(() => {
+    const productWithQuantity = { ...product, quantity };
+    dispatch(addToCart(productWithQuantity));
+  }, [dispatch, product, quantity]);
 
-  const handleAddToCart = useCallback((addToCart) => {
-    const productWithQuantity = { ...product, quantity }; 
-    addToCart(productWithQuantity); 
-  }, [product, quantity]);
-  
-
-  const handleMoreClick = useCallback((navigate) => {
-    navigate(`/products/${product.id}`); 
-  }, [product.id]);
-  
-
-  if (isLoading) return null; 
+  const handleMoreClick = useCallback(() => {
+    navigate(`/products/${product.id}`);
+  }, [navigate, product.id]);
 
   return (
     <Card
       hoverable
       style={{ width: isDetailView ? 600 : 300 }}
       cover={
-        <img 
-          alt={product.title} 
-          src={product.image} 
-          style={{ 
-            height: isDetailView ? 400 : 200, 
-            objectFit: 'cover' 
-          }} 
+        <img
+          alt={product.title}
+          src={product.image}
+          style={{
+            height: isDetailView ? 400 : 200,
+            objectFit: 'cover',
+          }}
         />
       }
     >
@@ -51,15 +47,14 @@ function ProductItem({ product, isDetailView, isLoading }) {
             <InputNumber
               min={1}
               value={quantity}
-              onChange={(value) => setQuantity(handleQuantityChange(value))} 
+              onChange={handleQuantityChange}
               style={{ marginRight: '10px' }}
             />
-            <Button onClick={() => handleAddToCart(addToCart)}>Add to Cart</Button>
+            <Button onClick={handleAddToCart}>Add to Cart</Button>
           </>
         )}
         {!isDetailView && (
-
-          <Button onClick={() => handleMoreClick(navigate)} style={{ MarginTop: '10px' }}>
+          <Button onClick={handleMoreClick} style={{ marginTop: '10px' }}>
             More
           </Button>
         )}
@@ -68,4 +63,4 @@ function ProductItem({ product, isDetailView, isLoading }) {
   );
 }
 
-export default withLoading(ProductItem); 
+export default ProductItem;
