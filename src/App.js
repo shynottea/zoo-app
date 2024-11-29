@@ -7,7 +7,6 @@ import { setAuthFromCookie } from './redux/slices/authSlice';
 import ProtectedRoute from './routes/ProtectedRoute'; // Ensure correct import
 
 import AdminDashboard from './routes/Admin/AdminDashboard'; // Admin page for user management
-import UserProfile from './routes/UserProfile/UserProfile'; // User Profile component
 
 import EditUser from './routes/Admin/EditUser';
 import Navbar from './Navbar'; // Ensure correct path
@@ -62,9 +61,9 @@ const App = () => {
             </Route>
 
             {/* Protected route for authenticated users */}
-            <Route element={<ProtectedRoute isAuthenticated />}>
+            {/* <Route element={<ProtectedRoute isAuthenticated />}>
               <Route path="/user-profile" element={<UserProfile />} /> {/* Correct component */}
-            </Route>
+            {/* </Route> */} 
 
             {/* Redirect root to product list */}
             <Route path="/" element={<Navigate to="/productlist" />} />

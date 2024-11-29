@@ -1,27 +1,20 @@
-// src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
-
-// Base URL for your backend API
-const API_BASE_URL = 'http://localhost:5000'; // Adjust as needed
 
 // Register a new user
 export const register = createAsyncThunk(
   'auth/register',
   async ({ username, password, email }, thunkAPI) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/users`, {
+      const response = await fetch('http://localhost:5000/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, email, isAdmin: false, isManager: false })
       });
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message || 'Registration failed');
+      return thunkAPI.rejectWithValue('Registration failed');
     }
   }
 );
@@ -31,37 +24,49 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ username, password }, thunkAPI) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/users?name=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await fetch('http://localhost:5000/users');
       const users = await response.json();
 
-      if (users.length === 0) {
-        throw new Error('Invalid username or password');
+      const user = users.find(u => u.name === username && u.password === password);
+      if (user) {
+        Cookies.set('user', user.name, { expires: 7 });
+        return user;
+      } else {
+        return thunkAPI.rejectWithValue('Invalid username or password');
       }
-
-      const user = users[0];
-      Cookies.set('user', user.name, { expires: 7 });
-      return user;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message || 'Network error');
+      return thunkAPI.rejectWithValue('Network error');
     }
   }
 );
 
-// Initial state
+// Profile Update (CRUD) for the user
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async ({ userId, profile }, thunkAPI) => {
+    try {
+      const response = await fetch(`http://localhost:5000/users/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile)
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Profile update failed');
+    }
+  }
+);
+
 const initialState = {
   isAuth: false,
   username: '',
-  userId: null, // Store user ID for profile fetching
-  role: '', // 'admin', 'manager', 'user'
+  role: '', // Added to track the user role (user, manager, admin)
   status: 'idle',
   error: null,
   profile: null
 };
 
-// Auth slice
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -69,29 +74,23 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuth = false;
       state.username = '';
-      state.userId = null;
       state.role = '';
       state.profile = null;
       Cookies.remove('user');
     },
-    setAuthFromCookie(state, action) {
-      const user = action.payload;
+    setAuthFromCookie(state) {
+      const user = Cookies.get('user');
       if (user) {
         state.isAuth = true;
-        state.username = user.name;
-        state.userId = user.id;
-        state.role = user.isAdmin ? 'admin' : user.isManager ? 'manager' : 'user';
-        state.profile = user.profile || {};
+        state.username = user;
       }
     },
   },
   extraReducers: (builder) => {
     builder
-      // Register
       .addCase(register.fulfilled, (state, action) => {
         state.isAuth = true;
         state.username = action.payload.username;
-        state.userId = action.payload.id;
         state.role = 'user'; // Default role is user
         state.status = 'succeeded';
       })
@@ -99,12 +98,9 @@ const authSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-
-      // Login
       .addCase(login.fulfilled, (state, action) => {
         state.isAuth = true;
         state.username = action.payload.name;
-        state.userId = action.payload.id;
         state.role = action.payload.isAdmin ? 'admin' : action.payload.isManager ? 'manager' : 'user';
         state.profile = action.payload.profile || {};
         state.status = 'succeeded';
@@ -112,6 +108,9 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.profile = action.payload.profile;
       });
   }
 });
