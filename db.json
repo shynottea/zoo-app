@@ -1,87 +1,120 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Dog Bed",
       "image": "https://shorturl.at/ExE40",
       "description": "A comfortable and durable bed for your dog to rest on.",
       "category": "Furniture",
       "price": 49.99,
-      "rates": [5, 4, 5],
+      "rates": [
+        5,
+        4,
+        5
+      ],
       "rating": 4.67
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Cat Scratching Post",
       "image": "https://shorturl.at/LciaF",
       "description": "A sturdy scratching post to keep your cat entertained and your furniture safe.",
       "category": "Toys",
       "price": 29.99,
-      "rates": [4, 3, 4, 4],
+      "rates": [
+        4,
+        3,
+        4,
+        4
+      ],
       "rating": 3.75
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Fish Tank",
       "image": "https://shorturl.at/GwAYS",
       "description": "A 20-gallon glass fish tank with LED lighting for freshwater or marine use.",
       "category": "Aquatic Supplies",
       "price": 99.99,
-      "rates": [5, 5, 4],
+      "rates": [
+        5,
+        5,
+        4
+      ],
       "rating": 4.67
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Bird Cage",
       "image": "https://shorturl.at/QBYMr",
       "description": "A spacious and well-ventilated cage for birds, complete with perches and feeding trays.",
       "category": "Cages",
       "price": 79.99,
-      "rates": [4, 4, 5],
+      "rates": [
+        4,
+        4,
+        5
+      ],
       "rating": 4.33
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Dog Leash",
       "image": "https://m.media-amazon.com/images/I/81S1t0ZtzVL.jpg",
       "description": "A durable, adjustable leash for walking your dog safely and comfortably.",
       "category": "Accessories",
       "price": 19.99,
-      "rates": [4, 5, 4],
+      "rates": [
+        4,
+        5,
+        4
+      ],
       "rating": 4.33
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Cat Food",
       "image": "https://i5.walmartimages.com/seo/Meow-Mix-Original-Choice-Dry-Cat-Food-30-Pounds_c6ce8dad-9f70-4368-a3a0-64d1c9730fd6.6e4cf26663f507ba903d633a8e44cb08.jpeg",
       "description": "Premium dry cat food with essential nutrients for a healthy and active cat.",
       "category": "Food",
       "price": 24.99,
-      "rates": [5, 4, 5],
+      "rates": [
+        5,
+        4,
+        5
+      ],
       "rating": 4.67
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Bird Food",
       "image": "https://m.media-amazon.com/images/I/81d9pdVBdES.jpg",
       "description": "Nutritious bird food suitable for a variety of bird species.",
       "category": "Food",
       "price": 14.99,
-      "rates": [4, 4, 3],
+      "rates": [
+        4,
+        4,
+        3
+      ],
       "rating": 3.67
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Dog Food",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgqKroqo3JSyymUzGy0rySXJnkL0IWM8DgsA&s",
       "description": "High-quality dog food formulated for optimal health.",
       "category": "Food",
       "price": 34.99,
-      "rates": [5, 4, 4],
+      "rates": [
+        5,
+        4,
+        4
+      ],
       "rating": 4.33
     },
     {
-      "id": 10,
+      "id": "10",
       "title": "Bonding Sponge",
       "image": "https://www.aquaticsupplies.com.au/cdn/shop/files/Dymax-Composeal-Brown-50g_1024x1024_5a098889-c5c5-4738-897a-5c22ea36a12f_512x512.webp?v=1729067626",
       "description": "Dymax Composeal Bonding Sponge is a non toxic; quick bonding compound that provides long lasting durable and waterproof bonding effect when Dymax Flora glue is added. This bonding compound is fully environmentally friendly and can be easily prepared for bonding woods and rocks commonly used for Aquascaping; Terrarium and Paludarium.",
@@ -91,16 +124,46 @@
       "rating": null
     }
   ],
-  "users": [
-    {
-      "name": "admin",
-      "password": "admin",
-      "isAdmin": true
-    },
-    {
-      "name": "dony",
-      "password": "magrony",
-      "isAdmin": false
-    }
-  ]
-}
+    "users": [
+      {
+        "id": "1",
+        "name": "admin",
+        "password": "admin",
+        "isAdmin": true,
+        "isManager": false,
+        "email": "admin@example.com",
+        "profile": {
+          "firstName": "Admin",
+          "lastName": "User",
+          "address": "123 Admin St, Admin City"
+        }
+      },
+      {
+        "id": "2",
+        "name": "dony",
+        "password": "password123",
+        "email": "dony@example.com",
+        "isAdmin": true,
+        "isManager": true,
+        "profile": {
+          "firstName": "Dony",
+          "lastName": "Doe",
+          "address": "456 Manager Ave, Manager City"
+        }
+      },
+      {
+        "id": "538c",
+        "name": "Cor",
+        "password": "corpassword",
+        "email": "kor@mail.com",
+        "isAdmin": false,
+        "isManager": true,
+        "profile": {
+          "firstName": "Cor",
+          "lastName": "Smith",
+          "address": "789 User Blvd, User Town"
+        }
+      }
+    ]
+  }
+  

@@ -1,15 +1,17 @@
 // Navbar.js
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, Input, Row, Col, Button } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Input, Row, Col, Button, Space } from 'antd';
 import zooLogo from './assets/zoo-logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './redux/slices/authSlice';
+import './Navbar.css'; // Import the CSS file
 
 const { Search } = Input;
 
 const Navbar = ({ onSearch }) => {
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const userRole = useSelector((state) => state.auth.role); // 'admin', 'manager', 'user'
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
@@ -29,79 +31,122 @@ const Navbar = ({ onSearch }) => {
     }
   };
 
-  const items = [
-    {
-      key: 'productlist',
-      label: (
-        <span onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-          Products
-        </span>
-
-      ),
-    },
-    { key: 'contacts', label: <Link to="/contacts">Contacts</Link> },
-    isAuth && { key: 'cart', label: <Link to="/cart">Cart</Link> },
-    isAuth
-      ? {
-          key: 'logout',
-          label: (
-            <Button onClick={() => dispatch(logout())}>Logout</Button>
-          ),
-        }
-      : { key: 'login', label: <Link to="/login">Login</Link> },
-  ].filter(Boolean);
-
-  const selectedKeys = items
-    .map((item) => item.key)
-    .filter((key) => location.pathname.includes(key));
+  // Function to check if a menu item is active
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <Row
-      align="middle"
-      justify="space-between"
-      style={{ height: '100%', padding: '0 20px', display: 'flex' }}
-    >
-      <Col>
-        <div
-          className="logo"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: '100%',
-            cursor: 'pointer',
-          }}
-          onClick={handleLogoClick}
-        >
-          <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
-        </div>
-      </Col>
-      <Col
-        span={12}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Search
-          placeholder="Search products..."
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          onSearch={handleSearch}
-          style={{ width: '300px' }}
-        />
-      </Col>
+    <div className="navbar">
+      <Row align="middle" justify="space-between">
+        {/* Logo */}
+        <Col>
+          <div className="logo" onClick={handleLogoClick}>
+            <img src={zooLogo} alt="Logo" />
+          </div>
+        </Col>
 
-      <Col>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          selectedKeys={selectedKeys}
-          items={items}
-          style={{ border: 'none', display: 'flex', alignItems: 'center' }}
-        />
-      </Col>
-    </Row>
+        {/* Search Bar */}
+        <Col
+          xs={24}
+          sm={12}
+          md={8}
+          lg={8}
+          xl={8}
+          className="searchBar"
+          style={{ textAlign: 'center' }}
+        >
+          <Search
+            placeholder="Search products..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onSearch={handleSearch}
+            allowClear
+            style={{
+              maxWidth: '300px',
+              width: '100%',
+            }}
+          />
+        </Col>
+
+        {/* Navigation Items */}
+        <Col>
+          <Space size="middle" className="navItems">
+            {/* Products */}
+            <Button
+              type="text"
+              onClick={() => navigate('/productlist')}
+              className={`navButton ${isActive('/productlist') ? 'active' : ''}`}
+            >
+              Products
+            </Button>
+
+            {/* Contacts */}
+            <Button
+              type="text"
+              onClick={() => navigate('/contacts')}
+              className={`navButton ${isActive('/contacts') ? 'active' : ''}`}
+            >
+              Contacts
+            </Button>
+
+            {/* Cart (only if authenticated) */}
+            {isAuth && (
+              <Button
+                type="text"
+                onClick={() => navigate('/cart')}
+                className={`navButton ${isActive('/cart') ? 'active' : ''}`}
+              >
+                Cart
+              </Button>
+            )}
+
+            {/* Admin Dashboard (only if admin) */}
+            {isAuth && userRole === 'admin' && (
+              <Button
+                type="text"
+                onClick={() => navigate('/admin-dashboard')}
+                className={`navButton ${isActive('/admin-dashboard') ? 'active' : ''}`}
+              >
+                Admin Dashboard
+              </Button>
+            )}
+
+            {/* Login/Logout and Profile */}
+            {isAuth ? (
+              <>
+                {/* Profile */}
+                <Button
+                  type="text"
+                  onClick={() => navigate('/user-profile')}
+                  className={`navButton ${isActive('/user-profile') ? 'active' : ''}`}
+                >
+                  Profile
+                </Button>
+                {/* Logout */}
+                <Button
+                  type="text"
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate('/login'); // Redirect to login after logout
+                  }}
+                  className="navButton"
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              // Login
+              <Button
+                type="text"
+                onClick={() => navigate('/login')}
+                className={`navButton ${isActive('/login') ? 'active' : ''}`}
+              >
+                Login
+              </Button>
+            )}
+          </Space>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
