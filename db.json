@@ -117,6 +117,19 @@
           "lastName": "Smith",
           "address": "456 User St, User City"
         }
+      },
+      {
+        "id": 3,
+        "name": "manager",
+        "password": "manager123",
+        "isAdmin": false,
+        "isManager": true,
+        "email": "manager@example.com",
+        "profile": {
+          "firstName": "Manager",
+          "lastName": "User",
+          "address": "789 Manager Rd, Manager City"
+        }
       }
     ]
 }

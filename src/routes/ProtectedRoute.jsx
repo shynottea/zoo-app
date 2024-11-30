@@ -1,21 +1,26 @@
+// src/routes/ProtectedRoute.jsx
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const ProtectedRoute = ({ role }) => {
+/**
+ * @param {string[]} roles - Array of roles that are allowed to access the route.
+ */
+const ProtectedRoute = ({ roles = [] }) => {
   const { isAuth, role: userRole } = useSelector((state) => state.auth);
 
-  // If the user is authenticated and has the correct role, render child routes
-  // Otherwise, redirect to the login page
+  // If not authenticated, redirect to login
   if (!isAuth) {
     return <Navigate to="/login" />;
   }
 
-  if (role && role !== userRole) {
-    return <Navigate to="/home" />; // Redirect if user role does not match
+  // If roles are specified and user's role is not in the allowed roles, redirect
+  if (roles.length > 0 && !roles.includes(userRole)) {
+    return <Navigate to="/home" />; // Adjust the redirect path as needed
   }
 
-  return <Outlet />; // Render child routes if the user is authenticated
+  // Else, render the child routes
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

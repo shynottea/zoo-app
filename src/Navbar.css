@@ -2,66 +2,65 @@
 
 /* Navbar Container */
 .navbar {
-    background-color: #001529; /* Ant Design's dark theme primary color */
-    padding: 10px 20px;
+  background-color: #001529; /* Ant Design's dark theme primary color */
+  padding: 10px 20px;
+}
+
+/* Logo Styling */
+.logo img {
+  height: 40px;
+}
+
+/* Navigation Button Styling */
+.navButton {
+  color: #fff; /* White text color */
+  font-size: 16px;
+  padding: 0 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  display: inline-block;
+}
+
+/* Hover Effect for Navigation Buttons */
+.navButton:hover {
+  color: #40a9ff; /* Ant Design's primary blue on hover */
+  background-color: rgba(24, 144, 255, 0.2); /* Light blue background on hover */
+  border-radius: 4px;
+}
+
+/* Active State for Navigation Buttons */
+.navButton.active {
+  color: #1890ff; /* Ant Design's primary blue */
+  background-color: rgba(24, 144, 255, 0.1); /* Slight blue background when active */
+  border-radius: 4px;
+}
+
+/* Search Bar Styling */
+.searchBar .ant-input-affix-wrapper {
+  border-radius: 4px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px;
   }
-  
-  /* Logo Styling */
-  .logo img {
-    height: 40px;
+
+  .searchBar {
+    width: 100%;
+    margin-top: 10px;
   }
-  
-  /* Navigation Button Styling */
+
+  .navItems {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
   .navButton {
-    color: #fff; /* White text color */
-    font-size: 16px;
-    padding: 0 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    transition: color 0.3s ease, background-color 0.3s ease;
-    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
   }
-  
-  /* Hover Effect for Navigation Buttons */
-  .navButton:hover {
-    color: #40a9ff; /* Ant Design's primary blue on hover */
-    background-color: rgba(24, 144, 255, 0.2); /* Light blue background on hover */
-    border-radius: 4px;
-  }
-  
-  /* Active State for Navigation Buttons */
-  .navButton.active {
-    color: #1890ff; /* Ant Design's primary blue */
-    background-color: rgba(24, 144, 255, 0.1); /* Slight blue background when active */
-    border-radius: 4px;
-  }
-  
-  /* Search Bar Styling */
-  .searchBar .ant-input-affix-wrapper {
-    border-radius: 4px;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .navbar {
-      padding: 10px;
-    }
-  
-    .searchBar {
-      width: 100%;
-      margin-top: 10px;
-    }
-  
-    .navItems {
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 10px;
-    }
-  
-    .navButton {
-      padding: 5px 10px;
-      font-size: 14px;
-    }
-  }
-  
+}
