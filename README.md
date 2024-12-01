@@ -7,7 +7,7 @@ Welcome to our **ZOO-APP**! This project is a part of our React course at KBTU, 
 - **Frontend:** React, React Router, Ant Design, Context API
 - **Backend:** JSON Server (for development)
 - **Styling:** Ant Design (UI framework)
-- **State Management:** Context API with custom hooks
+- **State Management:** Redux
 - **Authentication:** Cookies for session management
 
 ## 📚 Features
