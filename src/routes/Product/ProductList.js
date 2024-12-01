@@ -7,12 +7,11 @@ import { fetchProducts } from '../../redux/slices/productsSlice';
 const ProductList = ({ searchQuery }) => {
   const dispatch = useDispatch();
   const { items: products, status, error, limit } = useSelector((state) => state.products);
-  
+
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 99999]);
-  const [sortOption, setSortOption] = useState('priceLowToHigh'); 
+  const [sortOption, setSortOption] = useState('priceLowToHigh');
   const [page, setPage] = useState(1);
-  const [paginatedProducts, setPaginatedProducts] = useState([]);
 
   const categories = useMemo(() => {
     const allCategories = products.map((product) => product.category);
@@ -25,22 +24,11 @@ const ProductList = ({ searchQuery }) => {
     }
   }, [dispatch, status]);
 
-  useEffect(() => {
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    setPaginatedProducts(products.slice(startIndex, endIndex));
-  }, [page, products, limit]);
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
-
   const filteredProducts = useMemo(() => {
     let filtered = products.filter((product) => {
       const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
       const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-
       return matchesSearch && matchesCategory && matchesPrice;
     });
 
@@ -55,9 +43,15 @@ const ProductList = ({ searchQuery }) => {
     return filtered;
   }, [products, searchQuery, selectedCategories, priceRange, sortOption]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [filteredProducts]);
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    return filteredProducts.slice(startIndex, endIndex);
+  }, [filteredProducts, page, limit]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   const renderFilters = () => (
     <div style={{ padding: '20px' }}>
@@ -71,7 +65,7 @@ const ProductList = ({ searchQuery }) => {
         onChange={(checkedValues) => setSelectedCategories(checkedValues)}
       />
       <Divider />
-        
+
       <h3>Price Range</h3>
       <Slider
         range
@@ -83,7 +77,7 @@ const ProductList = ({ searchQuery }) => {
         tipFormatter={(value) => `$${value}`}
       />
       <Divider />
-  
+
       <h3>Sort By</h3>
       <Radio.Group
         value={sortOption}
@@ -100,14 +94,15 @@ const ProductList = ({ searchQuery }) => {
           Rating: High to Low
         </Radio>
       </Radio.Group>
-
       <Divider />
-  
-      <Button onClick={() => {
-        setSelectedCategories([]);
-        setPriceRange([0, 99999]);
-        setSortOption('priceLowToHigh');
-      }}>
+
+      <Button
+        onClick={() => {
+          setSelectedCategories([]);
+          setPriceRange([0, 99999]);
+          setSortOption('priceLowToHigh');
+        }}
+      >
         Reset Filters
       </Button>
     </div>
@@ -141,10 +136,11 @@ const ProductList = ({ searchQuery }) => {
           pageSize={limit}
           onChange={handlePageChange}
           showSizeChanger={false}
+          style={{ marginTop: '20px', textAlign: 'center' }}
         />
       </Layout.Content>
     </Layout>
-  );  
+  );
 };
 
 export default ProductList;
