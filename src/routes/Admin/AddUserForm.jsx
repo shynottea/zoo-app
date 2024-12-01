@@ -1,42 +1,51 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Select, message } from 'antd';
+// src/routes/Admin/AddUserForm.jsx
+import React from 'react';
+import { Modal, Form, Input, Button } from 'antd';
 
 const AddUserForm = ({ visible, onClose, onUserAdded }) => {
-  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
-  // Form submit handler
-  const onFinish = async (values) => {
-    setLoading(true);
+  const handleSubmit = async (values) => {
+    const newUser = {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      isAdmin: values.isAdmin || false,
+      isManager: values.isManager || false,
+    };
+
     try {
       const response = await fetch('http://localhost:5000/users', {
         method: 'POST',
+        body: JSON.stringify(newUser),
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
       });
 
-      if (response.ok) {
-        const newUser = await response.json();
-        onUserAdded(newUser); // Call the parent method to update the user list
-        message.success('User added successfully');
-        onClose();
-      } else {
-        message.error('Failed to add user');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+
+      const addedUser = await response.json();
+      onUserAdded(addedUser);
+      form.resetFields();
+      onClose();
     } catch (error) {
-      message.error('Failed to add user');
-    } finally {
-      setLoading(false);
+      // If offline, the service worker will handle the retry
+      console.error('Failed to add user:', error);
+      alert('You are offline. The user will be added when you are back online.');
+      form.resetFields();
+      onClose();
     }
   };
 
   return (
     <Modal
-      title="Add User"
+      title="Add New User"
       visible={visible}
       onCancel={onClose}
       footer={null}
     >
-      <Form onFinish={onFinish}>
+      <Form form={form} onFinish={handleSubmit}>
         <Form.Item
           name="name"
           label="Username"
@@ -44,55 +53,9 @@ const AddUserForm = ({ visible, onClose, onUserAdded }) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name="email"
-          label="Email"
-          rules={[{ required: true, message: 'Please input the email!' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="isAdmin"
-          label="Is Admin"
-          rules={[{ required: true, message: 'Please select if the user is admin!' }]}
-          initialValue={false}  // Default to non-admin
-        >
-          <Select>
-            <Select.Option value={false}>No</Select.Option>
-            <Select.Option value={true}>Yes</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="isManager"
-          label="Is Manager"
-          rules={[{ required: true, message: 'Please select if the user is manager!' }]}
-          initialValue={false}  // Default to non-manager
-        >
-          <Select>
-            <Select.Option value={false}>No</Select.Option>
-            <Select.Option value={true}>Yes</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="profile.firstName"
-          label="First Name"
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="profile.lastName"
-          label="Last Name"
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="profile.address"
-          label="Address"
-        >
-          <Input />
-        </Form.Item>
+        {/* Add other fields like email, password, isAdmin, etc. */}
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading} style={{ width: '100%' }}>
+          <Button type="primary" htmlType="submit">
             Add User
           </Button>
         </Form.Item>

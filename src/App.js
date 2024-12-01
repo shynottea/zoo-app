@@ -18,6 +18,22 @@ import Login from './routes/Authentication/Login';
 import Register from './routes/Authentication/Register';
 
 const { Header, Content } = Layout;
+// Helper function to convert Base64 string to Uint8Array
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,7 +42,36 @@ const App = () => {
   useEffect(() => {
     dispatch(setAuthFromCookie());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(setAuthFromCookie());
+    requestPushPermission(); // Request push notification permission
+  }, [dispatch]);
 
+  const requestPushPermission = async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('Push notification permission granted.');
+      subscribeUserToPush();
+    } else {
+      console.error('Push notification permission denied.');
+    }
+  };
+
+  const subscribeUserToPush = async () => {
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array('BJlXprab7YxbZfCCAmlOb3Nw1rcD-6wDHLCHWS6hze_43aB3zoJPMKUX7QcmQMGVZd_AvFZ4JfgGTHvwIIZOR7o'),
+    });
+    // Send subscription to your backend server to store it
+    await fetch('http://localhost:5000/subscribe', {
+      method: 'POST',
+      body: JSON.stringify(subscription),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  };
   const handleSearch = (value) => {
     setSearchQuery(value.toLowerCase());
   };

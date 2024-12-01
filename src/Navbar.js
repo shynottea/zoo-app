@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Input, Row, Col, Button, Space } from 'antd';
-import zooLogo from './assets/zoo-logo.png';
+import zooLogo from './static/media/zoo-logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './redux/slices/authSlice';
-import './Navbar.css'; // Import the CSS file
+import './static/css/Navbar.css'; // Import the CSS file
 
 const { Search } = Input;
 
