@@ -122,6 +122,14 @@
       "price": 13.95,
       "rates": [],
       "rating": null
+    },
+    {
+      "id": "0011",
+      "title": "asd",
+      "image": "asd",
+      "description": "asd",
+      "category": "Furniture",
+      "price": 123
     }
   ],
   "users": [
@@ -149,6 +157,19 @@
         "firstName": "Dony",
         "lastName": "Smith",
         "address": "456 User St, User City"
+      }
+    },
+    {
+      "id": 3,
+      "name": "manager",
+      "password": "manager123",
+      "isAdmin": false,
+      "isManager": true,
+      "email": "manager@example.com",
+      "profile": {
+        "firstName": "Manager",
+        "lastName": "User",
+        "address": "789 Manager Rd, Manager City"
       }
     }
   ]
