@@ -1,9 +1,4 @@
-// public/service-worker.js
-
-// Cache name
 const CACHE_NAME = 'my-app-cache-v1';
-
-// Files to cache
 const CACHE_FILES = [
   '/',
   '/index.html',
@@ -12,24 +7,23 @@ const CACHE_FILES = [
   '/manifest.json',
 ];
 
-// Install Service Worker and Cache Assets
+// Install Event
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('Caching assets');
+      console.log('Caching assets during install');
       return cache.addAll(CACHE_FILES);
     })
   );
 });
 
-// Activate Service Worker and Remove Old Caches
+// Activate Event
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) =>
       Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('Deleting old cache:', cache);
             return caches.delete(cache);
           }
         })
@@ -38,11 +32,37 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Cached Resources
+// Fetch Event
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
-  );
+  const { request } = event;
+
+  // Handle POST requests for the product list
+  const isProductPostRequest = request.url.includes('http://localhost:5000/products') && request.method === 'POST';
+
+  if (isProductPostRequest) {
+    event.respondWith(
+      fetch(request.clone())
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.ok) {
+            // Clone the response and store it in the cache
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request.url, responseClone);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // Fallback to cached response if available
+          return caches.match(request.url).then((cachedResponse) => {
+            return cachedResponse || new Response('{"error":"Network error and no cached data."}', { status: 500 });
+          });
+        })
+    );
+  } else {
+    // Default behavior for other requests
+    event.respondWith(
+      caches.match(request).then((response) => response || fetch(request))
+    );
+  }
 });
