@@ -13,5 +13,7 @@ const fetchProductsData = async (serverUrl) => {
   }
 };
 
- export { fetchProductsData }; 
+
+
+export { fetchProductsData }; 
   

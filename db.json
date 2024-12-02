@@ -133,19 +133,12 @@
     }
   ],
   "users": [
-    {"id": "1",
-    "name": "dony",
-    "password": "magrony",
-    "isAdmin": false,
-    "isManager": false,
-    "email": "dony@example.com",
-    "profile":
     {
-      "firstName": "dd",
-      "lastName": "dd",
-      "address": "dd"
-    }
-  },
+      "firstName": "Islam",
+      "lastName": "Khassangaliyev",
+      "address": "Monkaeva 65",
+      "id": "1"
+    },
     {
       "id": "2",
       "name": "dony",
@@ -171,6 +164,12 @@
         "lastName": "User",
         "address": "789 Manager Rd, Manager City"
       }
+    },
+    {
+      "firstName": "Islam",
+      "lastName": "Khassangaliyev",
+      "address": "45454sd5fd4s",
+      "id": "84f6"
     }
   ]
 }
