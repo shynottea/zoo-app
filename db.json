@@ -133,19 +133,19 @@
     }
   ],
   "users": [
+    {"id": "1",
+    "name": "dony",
+    "password": "magrony",
+    "isAdmin": false,
+    "isManager": false,
+    "email": "dony@example.com",
+    "profile":
     {
-      "id": "1",
-      "name": "admin",
-      "password": "admin",
-      "isAdmin": true,
-      "isManager": false,
-      "email": "admin@example.com",
-      "profile": {
-        "firstName": "Admin",
-        "lastName": "User",
-        "address": "123 Admin St, Admin City"
-      }
-    },
+      "firstName": "dd",
+      "lastName": "dd",
+      "address": "dd"
+    }
+  },
     {
       "id": "2",
       "name": "dony",
@@ -160,7 +160,7 @@
       }
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "manager",
       "password": "manager123",
       "isAdmin": false,

@@ -7,12 +7,34 @@ const CACHE_FILES = [
   '/manifest.json',
 ];
 
+const CACHE_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+// Helper function to check cache expiration
+const isCacheExpired = async () => {
+  const cacheTimestamp = await caches.open(CACHE_NAME).then((cache) =>
+    cache.match('/timestamp').then((response) => response?.text())
+  );
+
+  if (!cacheTimestamp) return true; // No timestamp means cache is expired
+
+  const now = Date.now();
+  return now - parseInt(cacheTimestamp, 10) > CACHE_EXPIRATION_TIME;
+};
+
+// Helper function to update cache timestamp
+const updateCacheTimestamp = async () => {
+  const now = Date.now().toString();
+  await caches.open(CACHE_NAME).then((cache) =>
+    cache.put('/timestamp', new Response(now))
+  );
+};
+
 // Install Event
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('Caching assets during install');
-      return cache.addAll(CACHE_FILES);
+      return cache.addAll([...CACHE_FILES, '/timestamp']);
     })
   );
 });
@@ -36,33 +58,25 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
-  // Handle POST requests for the product list
-  const isProductPostRequest = request.url.includes('http://localhost:5000/products') && request.method === 'POST';
-
-  if (isProductPostRequest) {
-    event.respondWith(
-      fetch(request.clone())
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.ok) {
-            // Clone the response and store it in the cache
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(request.url, responseClone);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          // Fallback to cached response if available
-          return caches.match(request.url).then((cachedResponse) => {
-            return cachedResponse || new Response('{"error":"Network error and no cached data."}', { status: 500 });
-          });
-        })
-    );
-  } else {
-    // Default behavior for other requests
-    event.respondWith(
-      caches.match(request).then((response) => response || fetch(request))
-    );
-  }
+  event.respondWith(
+    isCacheExpired().then((expired) => {
+      if (expired) {
+        // Clear old cache and fetch fresh content
+        return caches.delete(CACHE_NAME).then(() =>
+          fetch(request.clone()).then((response) => {
+            if (response && response.ok) {
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(request, response.clone());
+                updateCacheTimestamp();
+              });
+            }
+            return response;
+          })
+        );
+      } else {
+        // Serve from cache or fallback to network
+        return caches.match(request).then((response) => response || fetch(request));
+      }
+    })
+  );
 });

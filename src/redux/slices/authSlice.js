@@ -60,6 +60,7 @@ export const updateProfile = createAsyncThunk(
 
 const initialState = {
   isAuth: false,
+  id: '',
   username: '',
   role: '', // Added to track the user role (user, manager, admin)
   status: 'idle',
@@ -73,6 +74,7 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.isAuth = false;
+      state.id = '';
       state.username = '';
       state.role = '';
       state.profile = null;
@@ -90,6 +92,7 @@ const authSlice = createSlice({
     builder
       .addCase(register.fulfilled, (state, action) => {
         state.isAuth = true;
+        state.id = action.payload.id;
         state.username = action.payload.username;
         state.role = 'user'; // Default role is user
         state.status = 'succeeded';
@@ -100,6 +103,7 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isAuth = true;
+        state.id = action.payload.id;
         state.username = action.payload.name;
         state.role = action.payload.isAdmin ? 'admin' : action.payload.isManager ? 'manager' : 'user';
         state.profile = action.payload.profile || {};

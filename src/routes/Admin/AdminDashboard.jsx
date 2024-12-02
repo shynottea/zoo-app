@@ -1,42 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Table, Button, Popconfirm, message } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUsers, deleteUser } from '../../redux/slices/userSlice';
+import AddUserForm from './AddUserForm';
 import { useNavigate } from 'react-router-dom';
-import AddUserForm from './AddUserForm'; // Import the AddUser component
 
 const AdminDashboard = () => {
-  const [users, setUsers] = useState([]);
-  const [showAddUserModal, setShowAddUserModal] = useState(false);
-  const server = 'http://localhost:5000/users';
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { users, status, error } = useSelector((state) => state.users);
+  const [showAddUserModal, setShowAddUserModal] = React.useState(false);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch(server);
-      const data = await response.json();
-      setUsers(data);
-    };
-    fetchUsers();
-  }, []);
-
-  const deleteUser = async (userId) => {
-    try {
-      await fetch(`http://localhost:5000/users/${userId}`, { method: 'DELETE' });
-      setUsers(users.filter((user) => user.id !== userId));
-      message.success('User deleted successfully');
-    } catch (error) {
-      message.error('Failed to delete user');
+  // Function to display system notifications
+  const showNotification = (title, body) => {
+    if (Notification.permission === 'granted') {
+      new Notification(title, {
+        body,
+        icon: '/logo192.png', // Replace with your app's logo or icon
+      });
+    } else if (Notification.permission === 'default') {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          new Notification(title, { body, icon: '/logo192.png' });
+        }
+      });
     }
   };
 
-  const handleAddUser = (newUser) => {
-    // Add new user to the list
-    setUsers([...users, newUser]);
-  };
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchUsers());
+    }
+    if (Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }, [status, dispatch]);
 
-  const getUserRole = (user) => {
-    if (user.isAdmin) return 'Admin';
-    if (user.isManager) return 'Manager';
-    return 'User';
+  const handleDeleteUser = (userId) => {
+    dispatch(deleteUser(userId))
+      .unwrap()
+      .then(() => {
+        message.success('User deleted successfully');
+        showNotification('User Deleted', `User with ID ${userId} has been deleted.`);
+      })
+      .catch((error) => {
+        message.error(`Failed to delete user: ${error}`);
+      });
   };
 
   const columns = [
@@ -50,8 +59,11 @@ const AdminDashboard = () => {
     },
     {
       title: 'Role',
-      dataIndex: 'isAdmin',
-      render: (isAdmin) => (isAdmin ? 'Admin' : 'User'),
+      render: (record) => {
+        if (record.isAdmin) return 'Admin';
+        if (record.isManager) return 'Manager';
+        return 'User';
+      },
     },
     {
       title: 'Actions',
@@ -62,7 +74,7 @@ const AdminDashboard = () => {
           </Button>
           <Popconfirm
             title="Are you sure to delete this user?"
-            onConfirm={() => deleteUser(record.id)}
+            onConfirm={() => handleDeleteUser(record.id)}
             okText="Yes"
             cancelText="No"
           >
@@ -75,6 +87,14 @@ const AdminDashboard = () => {
     },
   ];
 
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
+
+  if (status === 'failed') {
+    return <p>Error: {error}</p>;
+  }
+
   return (
     <div>
       <h2>Admin Dashboard</h2>
@@ -85,17 +105,14 @@ const AdminDashboard = () => {
       >
         Add New User
       </Button>
-      <Table
-        columns={columns}
-        dataSource={users}
-        rowKey="id"
-        pagination={false}
-      />
-      <AddUserForm
-        visible={showAddUserModal}
-        onClose={() => setShowAddUserModal(false)}
-        onUserAdded={handleAddUser}
-      />
+      <Table columns={columns} dataSource={users} rowKey="id" pagination={false} />
+      {showAddUserModal && (
+        <AddUserForm
+          visible={showAddUserModal}
+          onClose={() => setShowAddUserModal(false)}
+          onUserAdded={(user) => showNotification('User Added', `User ${user.name} has been added.`)}
+        />
+      )}
     </div>
   );
 };

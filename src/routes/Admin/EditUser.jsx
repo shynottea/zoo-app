@@ -1,53 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Select, message } from 'antd';
+import React, { useEffect } from 'react';
+import { Form, Input, Button, Select, message, Spin } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers, updateUser } from '../../redux/slices/userSlice';
 
-const EditUserProfile = () => {
-  const { userId } = useParams(); // Get the user ID from the URL
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+const EditUserProfile = ({ onUserUpdated }) => {
+  const { userId } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { users, status, error } = useSelector((state) => state.users);
+  const user = users.find((user) => user.id === userId);
+
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const response = await fetch(`http://localhost:5000/users/${userId}`);
-      const data = await response.json();
-      setUser(data);
+    if (status === 'idle') {
+      dispatch(fetchUsers());
+    }
+  }, [status, dispatch]);
+
+  const handleSubmit = async (values) => {
+    const updatedUserData = {
+      ...user,
+      ...values,
+      profile: {
+        ...user?.profile,
+        firstName: values['profile.firstName'],
+        lastName: values['profile.lastName'],
+        address: values['profile.address'],
+      },
     };
-    fetchUser();
-  }, [userId]);
 
-  const onFinish = async (values) => {
-    setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/users/${userId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-
-      if (response.ok) {
-        const updatedUser = await response.json();
-        message.success('User updated successfully');
-        navigate('/admin-dashboard'); // Redirect back to the admin dashboard
-      } else {
-        message.error('Failed to update user');
-      }
-    } catch (error) {
-      message.error('Failed to update user');
-    } finally {
-      setLoading(false);
+      const updatedUser = await dispatch(updateUser({ userId, userData: updatedUserData })).unwrap();
+      message.success('User updated successfully');
+      dispatch(fetchUsers()); // Refresh user list
+      onUserUpdated(updatedUser); // Trigger notification
+      navigate('/admin-dashboard');
+    } catch (err) {
+      console.error('Failed to update user:', err);
+      message.error(err || 'Failed to update user. Please try again.');
     }
   };
 
-  if (!user) return <div>Loading...</div>;
+  if (status === 'loading') {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!user && status === 'succeeded') {
+    return <div>User not found</div>;
+  }
 
   return (
     <div>
       <h2>Edit User</h2>
       <Form
-        initialValues={user}
-        onFinish={onFinish}
+        form={form}
+        initialValues={{
+          ...user,
+          'profile.firstName': user?.profile?.firstName,
+          'profile.lastName': user?.profile?.lastName,
+          'profile.address': user?.profile?.address,
+        }}
+        onFinish={handleSubmit}
         layout="vertical"
       >
         <Form.Item
@@ -84,29 +107,17 @@ const EditUserProfile = () => {
             <Select.Option value={true}>Yes</Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item
-          label="First Name"
-          name="profile.firstName"
-         
-        >
+        <Form.Item label="First Name" name="profile.firstName">
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Last Name"
-          name="profile.lastName"
-          
-        >
+        <Form.Item label="Last Name" name="profile.lastName">
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Address"
-          name="profile.address"
-        
-        >
+        <Form.Item label="Address" name="profile.address">
           <Input />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading} style={{ width: '100%' }}>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
             Update User
           </Button>
         </Form.Item>

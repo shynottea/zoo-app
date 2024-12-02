@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Layout, notification } from 'antd';
+import { Layout } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthFromCookie } from './redux/slices/authSlice';
 import ProtectedRoute from './routes/ProtectedRoute';
@@ -15,6 +15,7 @@ import ProductDetails from './routes/Product/ProductDetails';
 import Contacts from './routes/Contacts';
 import Login from './routes/Authentication/Login';
 import Register from './routes/Authentication/Register';
+import UserProfile from './routes/UserProfile/UserProfile';
 
 const { Header, Content } = Layout;
 
@@ -27,16 +28,29 @@ const App = () => {
     dispatch(setAuthFromCookie());
   }, [dispatch]);
 
-  // Show welcome notification on successful login
   useEffect(() => {
     if (isAuth && username) {
-      notification.success({
-        message: 'Welcome Back!',
-        description: `Hello, ${username}!`,
-        duration: 15, // Notification duration in seconds
-      });
+      // Check Notification permissions
+      if (Notification.permission === 'granted') {
+        // Show a system notification
+        new Notification('Welcome Back!', {
+          body: `Hello, ${username}!`,
+          icon: '/logo192.png', // Replace with your app's icon
+        });
+      } else if (Notification.permission === 'default') {
+        // Request notification permissions
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            new Notification('Welcome Back!', {
+              body: `Hello, ${username}!`,
+              icon: '/logo192.png',
+            });
+          }
+        });
+      }
     }
   }, [isAuth, username]);
+  
 
   const handleSearch = (value) => {
     setSearchQuery(value.toLowerCase());
@@ -68,6 +82,9 @@ const App = () => {
             </Route>
             <Route element={<ProtectedRoute roles={['manager']} />}>
               <Route path="/manager-dashboard" element={<ManagerDashboard />} />
+            </Route>
+            <Route element={<ProtectedRoute auth={isAuth} />}> {/* Use Redux state for auth */}
+              <Route path="/user-profile" element={<UserProfile />} /> {/* Removed extra space */}
             </Route>
             <Route path="/" element={<Navigate to="/productlist" />} />
             <Route path="*" element={<Navigate to="/productlist" />} />

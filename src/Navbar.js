@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Input, Row, Col, Button, Space, message } from 'antd';
 import zooLogo from './static/media/zoo-logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './redux/slices/authSlice';
-import './static/css/Navbar.css'; // Import the CSS file
+import './static/css/Navbar.css'; 
 
 const { Search } = Input;
 
 const Navbar = ({ onSearch }) => {
   const isAuth = useSelector((state) => state.auth.isAuth);
-  const userRole = useSelector((state) => state.auth.role); // 'admin', 'manager', 'user'
+  const userRole = useSelector((state) => state.auth.role);
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
@@ -32,7 +32,9 @@ const Navbar = ({ onSearch }) => {
       console.error('Notifications are already blocked.');
     }
   };
-
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
   const handleLogoClick = () => {
     setSearchValue('');
     navigate('/productlist', { replace: true });
@@ -77,10 +79,6 @@ const Navbar = ({ onSearch }) => {
         {/* Navigation Items */}
         <Col>
           <Space size="middle" className="navItems">
-            <Button type="primary" onClick={requestNotificationPermission}>
-              Enable Notifications
-            </Button>
-
             {/* Products */}
             <Button
               type="text"
@@ -135,13 +133,13 @@ const Navbar = ({ onSearch }) => {
             {/* Login/Logout and Profile */}
             {isAuth ? (
               <>
-                <Button
-                  type="text"
-                  onClick={() => navigate('/user-profile')}
-                  className={`navButton ${isActive('/user-profile') ? 'active' : ''}`}
-                >
-                  Profile
-                </Button>
+              <Button
+                type="text"
+                onClick={() => navigate('/user-profile')} // Navigate to the profile route
+                className={`navButton ${isActive('/user-profile') ? 'active' : ''}`} // Highlight the button if active
+              >
+                Profile
+              </Button>
                 <Button
                   type="text"
                   onClick={() => {
