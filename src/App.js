@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+// src/App.js
+
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,16 +18,23 @@ import Contacts from './routes/Contacts';
 import Login from './routes/Authentication/Login';
 import Register from './routes/Authentication/Register';
 import UserProfile from './routes/UserProfile/UserProfile';
+import { fetchUsers } from './redux/slices/userSlice';
+import { fetchAllReviews } from './redux/slices/reviewSlice'; // Import fetchAllReviews
 
 const { Header, Content, Footer } = Layout;
 
 const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = React.useState('');
   const dispatch = useDispatch();
   const { isAuth, username, role: userRole } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(setAuthFromCookie());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+    dispatch(fetchAllReviews()); // Fetch all reviews on app initialization
   }, [dispatch]);
 
   useEffect(() => {
@@ -50,7 +59,6 @@ const App = () => {
       }
     }
   }, [isAuth, username]);
-  
 
   const handleSearch = (value) => {
     setSearchQuery(value.toLowerCase());
@@ -76,7 +84,12 @@ const App = () => {
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/user-profile" element={isAuth && userRole !== 'admin' ? <UserProfile /> : <Navigate to="/" />} />
+            <Route
+              path="/user-profile"
+              element={
+                isAuth && userRole !== 'admin' ? <UserProfile /> : <Navigate to="/" />
+              }
+            />
             <Route element={<ProtectedRoute roles={['admin']} />}>
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
               <Route path="/admin-dashboard/:userId" element={<EditUser />} />
@@ -88,15 +101,20 @@ const App = () => {
             <Route path="*" element={<Navigate to="/productlist" />} />
           </Routes>
         </Content>
-        <Footer style={{ 
-            textAlign: 'center', 
-            backgroundColor: '#001529', 
-            padding: '10px 20px', 
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif", 
+        <Footer
+          style={{
+            textAlign: 'center',
+            backgroundColor: '#001529',
+            padding: '10px 20px',
+            fontFamily:
+              "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
             color: '#fff',
             flexShrink: 0,
-          }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          }}
+        >
+          <div
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+          >
             <span>📞 Phone: (123) 456-7890</span>
             <span>📍 Address: 123 Main Street, Anytown, USA</span>
             <span>© 2024</span>

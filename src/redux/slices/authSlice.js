@@ -1,3 +1,5 @@
+// src/redux/slices/authSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
@@ -9,12 +11,15 @@ export const register = createAsyncThunk(
       const response = await fetch('http://localhost:5000/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, email, isAdmin: false, isManager: false })
+        body: JSON.stringify({ name: username, password, email, isAdmin: false, isManager: false }),
       });
+      if (!response.ok) {
+        throw new Error('Failed to register');
+      }
       const data = await response.json();
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue('Registration failed');
+      return thunkAPI.rejectWithValue(error.message || 'Registration failed');
     }
   }
 );
@@ -40,27 +45,28 @@ export const login = createAsyncThunk(
   }
 );
 
-// Profile Update (CRUD) for the user
+// Update User Profile
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async ({ userId, profile }, thunkAPI) => {
     try {
-      // Step 1: Fetch the existing user data
+      // Fetch existing user data
       const getUserResponse = await fetch(`http://localhost:5000/users/${userId}`);
       if (!getUserResponse.ok) {
         throw new Error('Failed to fetch existing user data');
       }
       const existingUser = await getUserResponse.json();
 
-      // Step 2: Merge the new profile data with the existing user data
+      // Merge existing profile with new profile data
       const updatedUser = {
         ...existingUser,
         profile: {
-          ...existingUser.profile, // Keep existing profile fields
-          ...profile, 
+          ...existingUser.profile,
+          ...profile,
         },
       };
 
+      // Update user data
       const updateResponse = await fetch(`http://localhost:5000/users/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -72,22 +78,21 @@ export const updateProfile = createAsyncThunk(
       }
 
       const updatedData = await updateResponse.json();
-      return updatedData; // Return the updated user object
+      return updatedData; // Return updated user data
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message || 'Profile update failed');
     }
   }
 );
 
-
 const initialState = {
   isAuth: false,
   id: '',
   username: '',
-  role: '', 
+  role: '', // 'admin', 'manager', 'user'
   status: 'idle',
   error: null,
-  profile: null
+  profile: null,
 };
 
 const authSlice = createSlice({
@@ -107,22 +112,26 @@ const authSlice = createSlice({
       if (user) {
         state.isAuth = true;
         state.username = user;
+        // Note: To fully populate user details, consider fetching user data here
       }
     },
   },
   extraReducers: (builder) => {
     builder
+      // Handle Register
       .addCase(register.fulfilled, (state, action) => {
         state.isAuth = true;
         state.id = action.payload.id;
-        state.username = action.payload.username;
-        state.role = 'user'; 
+        state.username = action.payload.name;
+        state.role = 'user'; // Default role after registration
         state.status = 'succeeded';
+        state.profile = action.payload.profile || {};
       })
       .addCase(register.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })
+      // Handle Login
       .addCase(login.fulfilled, (state, action) => {
         state.isAuth = true;
         state.id = action.payload.id;
@@ -135,10 +144,14 @@ const authSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
+      // Handle Update Profile
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.error = action.payload;
       });
-  }
+  },
 });
 
 export const { logout, setAuthFromCookie } = authSlice.actions;

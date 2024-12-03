@@ -1,12 +1,16 @@
+// src/routes/Product/ProductList.js
+
 import React, { useEffect, useMemo, useState } from 'react';
 import ProductItem from './ProductItem';
 import { Row, Col, Spin, Alert, Layout, Checkbox, Slider, Divider, Button, Radio, Pagination } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../redux/slices/productsSlice';
+import { fetchAllReviews } from '../../redux/slices/reviewSlice';
 
 const ProductList = ({ searchQuery }) => {
   const dispatch = useDispatch();
   const { items: products, status, error, limit } = useSelector((state) => state.products);
+  const { reviewsByProductId, status: reviewsStatus, error: reviewsError } = useSelector((state) => state.reviews);
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 99999]);
@@ -24,6 +28,12 @@ const ProductList = ({ searchQuery }) => {
     }
   }, [dispatch, status]);
 
+  useEffect(() => {
+    if (reviewsStatus === 'idle') {
+      dispatch(fetchAllReviews());
+    }
+  }, [dispatch, reviewsStatus]);
+
   const filteredProducts = useMemo(() => {
     let filtered = products.filter((product) => {
       const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -37,11 +47,17 @@ const ProductList = ({ searchQuery }) => {
     } else if (sortOption === 'priceHighToLow') {
       filtered = filtered.sort((a, b) => b.price - a.price);
     } else if (sortOption === 'ratingHighToLow') {
-      filtered = filtered.sort((a, b) => b.rating - a.rating);
+      filtered = filtered.sort((a, b) => {
+        const aReviews = reviewsByProductId[a.id] || [];
+        const bReviews = reviewsByProductId[b.id] || [];
+        const aAvg = aReviews.length > 0 ? (aReviews.reduce((sum, r) => sum + r.rating, 0) / aReviews.length) : 0;
+        const bAvg = bReviews.length > 0 ? (bReviews.reduce((sum, r) => sum + r.rating, 0) / bReviews.length) : 0;
+        return bAvg - aAvg;
+      });
     }
 
     return filtered;
-  }, [products, searchQuery, selectedCategories, priceRange, sortOption]);
+  }, [products, searchQuery, selectedCategories, priceRange, sortOption, reviewsByProductId]);
 
   const paginatedProducts = useMemo(() => {
     const startIndex = (page - 1) * limit;
@@ -70,7 +86,7 @@ const ProductList = ({ searchQuery }) => {
       <Slider
         range
         min={0}
-        max={Math.ceil(Math.max(...products.map((p) => p.price)))}
+        max={Math.ceil(Math.max(...products.map((p) => p.price))) || 1000}
         step={1}
         value={priceRange}
         onChange={(value) => setPriceRange(value)}
@@ -108,12 +124,20 @@ const ProductList = ({ searchQuery }) => {
     </div>
   );
 
-  if (status === 'loading') {
-    return <Spin tip="Loading..." />;
+  if (status === 'loading' || reviewsStatus === 'loading') {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <Spin tip="Loading..." size="large" />
+      </div>
+    );
   }
 
   if (status === 'failed') {
     return <Alert message="Error" description={error} type="error" showIcon />;
+  }
+
+  if (reviewsStatus === 'failed') {
+    return <Alert message="Error" description={reviewsError} type="error" showIcon />;
   }
 
   return (
@@ -123,11 +147,18 @@ const ProductList = ({ searchQuery }) => {
       </Layout.Sider>
       <Layout.Content>
         <Row gutter={[16, 16]}>
-          {paginatedProducts.map((product) => (
-            <Col key={product.id} xs={24} sm={12} md={8} lg={8} xl={6}>
-              <ProductItem product={product} />
-            </Col>
-          ))}
+          {paginatedProducts.map((product) => {
+            const productReviews = reviewsByProductId[product.id] || [];
+            const averageRating = productReviews.length > 0
+              ? (productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length).toFixed(2)
+              : null;
+
+            return (
+              <Col key={product.id} xs={24} sm={12} md={8} lg={8} xl={6}>
+                <ProductItem product={{ ...product, rating: averageRating }} />
+              </Col>
+            );
+          })}
         </Row>
 
         <Pagination

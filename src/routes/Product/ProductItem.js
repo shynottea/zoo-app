@@ -1,13 +1,15 @@
-import React, { useState, useCallback } from 'react';
+// src/routes/Product/ProductItem.js
+
+import React from 'react';
+import { Card, Button, InputNumber, Rate, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button, InputNumber, Rate } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 
 const { Meta } = Card;
 
 function ProductItem({ product, isDetailView }) {
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = React.useState(1);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,19 +18,19 @@ function ProductItem({ product, isDetailView }) {
     setQuantity(value || 1);
   };
 
-  const handleAddToCart = useCallback(() => {
+  const handleAddToCart = React.useCallback(() => {
     const productWithQuantity = { ...product, quantity };
     dispatch(addToCart(productWithQuantity));
   }, [dispatch, product, quantity]);
 
-  const handleMoreClick = useCallback(() => {
+  const handleMoreClick = React.useCallback(() => {
     navigate(`/products/${product.id}`);
   }, [navigate, product.id]);
 
   return (
     <Card
       hoverable
-      style={{ width: isDetailView ? 600 : 300 }}
+      style={{ width: isDetailView ? 600 : 300, margin: '10px' }}
       cover={
         <img
           alt={product.title}
@@ -40,23 +42,35 @@ function ProductItem({ product, isDetailView }) {
         />
       }
     >
-      <Meta title={product.title} description={
-        <>
-          <p>Price: ${product.price}</p>
-          <Rate disabled defaultValue={product.rating} allowHalf />
-        </>
-        } />
-      <div style={{ marginTop: '10px' }}>
-        {isAuth && (
+      <Meta
+        title={product.title}
+        description={
           <>
-            <InputNumber
-              min={1}
-              value={quantity}
-              onChange={handleQuantityChange}
-              style={{ marginRight: '10px' }}
-            />
-            <Button onClick={handleAddToCart}>Add to Cart</Button>
+            <p>Price: ${product.price}</p>
+            {product.rating !== null && product.rating !== undefined && (
+              <div>
+                <Rate disabled allowHalf value={parseFloat(product.rating)} />
+                <span style={{ marginLeft: '8px' }}>{product.rating} / 5</span>
+              </div>
+            )}
           </>
+        }
+      />
+      <div style={{ marginTop: '10px' }}>
+        {product.stock === 0 ? (
+          <Tag color="red">Out of Stock</Tag>
+        ) : (
+          isAuth && (
+            <>
+              <InputNumber
+                min={1}
+                value={quantity}
+                onChange={handleQuantityChange}
+                style={{ marginRight: '10px' }}
+              />
+              <Button onClick={handleAddToCart}>Add to Cart</Button>
+            </>
+          )
         )}
         {!isDetailView && (
           <Button onClick={handleMoreClick} style={{ marginTop: '10px' }}>
