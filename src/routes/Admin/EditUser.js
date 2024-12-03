@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
 import { Form, Input, Button, Select, message, Spin } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers, updateUser } from '../../redux/slices/userSlice';
-
+import React, { useEffect } from 'react';
 const EditUserProfile = ({ onUserUpdated }) => {
   const { userId } = useParams();
   const dispatch = useDispatch();
@@ -35,11 +34,10 @@ const EditUserProfile = ({ onUserUpdated }) => {
       const updatedUser = await dispatch(updateUser({ userId, userData: updatedUserData })).unwrap();
       message.success('User updated successfully');
       dispatch(fetchUsers()); // Refresh user list
-      onUserUpdated(updatedUser); // Trigger notification
       navigate('/admin-dashboard');
     } catch (err) {
       console.error('Failed to update user:', err);
-      message.error(err || 'Failed to update user. Please try again.');
+      message.error(err?.message || 'Failed to update user. Please try again.');
     }
   };
 
@@ -52,7 +50,7 @@ const EditUserProfile = ({ onUserUpdated }) => {
   }
 
   if (status === 'failed') {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error?.message || 'Something went wrong'}</div>;
   }
 
   if (!user && status === 'succeeded') {

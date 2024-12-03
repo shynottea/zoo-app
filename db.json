@@ -1,20 +1,6 @@
 {
   "products": [
     {
-      "id": "1",
-      "title": "sss",
-      "image": "https://shorturl.at/ExE40",
-      "description": "A comfortable and durable bed for your dog to rest on.",
-      "category": "Furniture",
-      "price": 1,
-      "rates": [
-        5,
-        4,
-        5
-      ],
-      "rating": 4.67
-    },
-    {
       "id": "2",
       "title": "Cat Scratching Post",
       "image": "https://shorturl.at/LciaF",
@@ -126,10 +112,13 @@
   ],
   "users": [
     {
+      "firstName": "Islam",
+      "lastName": "Khassangaliyev",
+      "address": "Monkaeva 65",
       "id": "4",
-      "name": "a",
-      "email": "ss",
-      "isAdmin": false,
+      "name": "aaa",
+      "email": "sss",
+      "isAdmin": true,
       "isManager": false,
       "profile.firstName": "Magzhan",
       "profile.lastName": "Kulekesh",
@@ -177,6 +166,22 @@
         "firstName": "Manager",
         "lastName": "User",
         "address": "789 Manager Rd, Manager City"
+      }
+    },
+    {
+      "id": "9392",
+      "name": "maga",
+      "email": "asd@asd.c",
+      "password": "maga",
+      "isAdmin": false,
+      "isManager": true,
+      "profile.firstName": "maga",
+      "profile.lastName": "maga",
+      "profile.address": "maga",
+      "profile": {
+        "firstName": "maga",
+        "lastName": "maga",
+        "address": "maga"
       }
     }
   ]
