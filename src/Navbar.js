@@ -133,6 +133,7 @@ const Navbar = ({ onSearch }) => {
             {/* Login/Logout and Profile */}
             {isAuth ? (
               <>
+            {isAuth && userRole !== 'admin' && (
               <Button
                 type="text"
                 onClick={() => navigate('/user-profile')} // Navigate to the profile route
@@ -140,6 +141,7 @@ const Navbar = ({ onSearch }) => {
               >
                 Profile
               </Button>
+            )}
                 <Button
                   type="text"
                   onClick={() => {

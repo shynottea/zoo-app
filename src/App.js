@@ -76,15 +76,13 @@ const App = () => {
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/user-profile" element={isAuth && userRole !== 'admin' ? <UserProfile /> : <Navigate to="/" />} />
             <Route element={<ProtectedRoute roles={['admin']} />}>
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
               <Route path="/admin-dashboard/:userId" element={<EditUser />} />
             </Route>
             <Route element={<ProtectedRoute roles={['manager']} />}>
               <Route path="/manager-dashboard" element={<ManagerDashboard />} />
-            </Route>
-            <Route element={<ProtectedRoute auth={isAuth} />}> {/* Use Redux state for auth */}
-              <Route path="/user-profile" element={<UserProfile />} /> {/* Removed extra space */}
             </Route>
             <Route path="/" element={<Navigate to="/productlist" />} />
             <Route path="*" element={<Navigate to="/productlist" />} />

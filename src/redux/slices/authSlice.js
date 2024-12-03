@@ -45,18 +45,41 @@ export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async ({ userId, profile }, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:5000/users/${userId}`, {
+      // Step 1: Fetch the existing user data
+      const getUserResponse = await fetch(`http://localhost:5000/users/${userId}`);
+      if (!getUserResponse.ok) {
+        throw new Error('Failed to fetch existing user data');
+      }
+      const existingUser = await getUserResponse.json();
+
+      // Step 2: Merge the new profile data with the existing user data
+      const updatedUser = {
+        ...existingUser,
+        profile: {
+          ...existingUser.profile, // Keep existing profile fields
+          ...profile, // Overwrite only the fields provided in the update
+        },
+      };
+
+      // Step 3: Send the updated user object back to the backend
+      const updateResponse = await fetch(`http://localhost:5000/users/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile)
+        body: JSON.stringify(updatedUser),
       });
-      const data = await response.json();
-      return data;
+
+      if (!updateResponse.ok) {
+        throw new Error('Failed to update profile');
+      }
+
+      const updatedData = await updateResponse.json();
+      return updatedData; // Return the updated user object
     } catch (error) {
-      return thunkAPI.rejectWithValue('Profile update failed');
+      return thunkAPI.rejectWithValue(error.message || 'Profile update failed');
     }
   }
 );
+
 
 const initialState = {
   isAuth: false,
