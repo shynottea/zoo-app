@@ -168,12 +168,20 @@
       }
     },
     {
-      "id": "596e",
-      "name": "adminww",
-      "email": "adad@124",
-      "password": "1234",
+      "id": "3125",
+      "name": "admin",
+      "email": "asd@asd",
+      "password": "admin",
       "isAdmin": true,
-      "isManager": false
+      "isManager": false,
+      "profile": {
+        "firstName": "asd",
+        "lastName": "asdasd",
+        "address": "asdasd"
+      },
+      "profile.firstName": "asd",
+      "profile.lastName": "asdasd",
+      "profile.address": "asdasd"
     }
   ]
 }

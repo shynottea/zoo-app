@@ -17,7 +17,7 @@ import Login from './routes/Authentication/Login';
 import Register from './routes/Authentication/Register';
 import UserProfile from './routes/UserProfile/UserProfile';
 
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -66,7 +66,7 @@ const App = () => {
           style={{
             padding: 24,
             margin: 0,
-            minHeight: 280,
+            minHeight: 580,
           }}
         >
           <Routes>
@@ -88,6 +88,20 @@ const App = () => {
             <Route path="*" element={<Navigate to="/productlist" />} />
           </Routes>
         </Content>
+        <Footer style={{ 
+            textAlign: 'center', 
+            backgroundColor: '#001529', 
+            padding: '10px 20px', 
+            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif", 
+            color: '#fff',
+            flexShrink: 0,
+          }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>📞 Phone: (123) 456-7890</span>
+            <span>📍 Address: 123 Main Street, Anytown, USA</span>
+            <span>© 2024</span>
+          </div>
+        </Footer>
       </Layout>
     </Layout>
   );
