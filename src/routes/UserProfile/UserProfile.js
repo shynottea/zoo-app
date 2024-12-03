@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, Button, message, List, Typography, Spin, Card, Descriptions, Divider, Collapse, Pagination } from 'antd';
 import { updateProfile } from '../../redux/slices/authSlice';
 import { fetchUserOrders, setPage } from '../../redux/slices/orderSlice';
-import { formatCurrency } from '../../utils/formatCurrency'; // Utility function to format price
+import { formatCurrency } from '../../utils/formatCurrency'; 
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -20,14 +20,12 @@ const UserProfile = () => {
   const [profileVisible, setProfileVisible] = useState(false);
   const [ordersVisible, setOrdersVisible] = useState(false);
 
-  // Fetch user orders when profile is available or page changes
   useEffect(() => {
     if (id) {
       dispatch(fetchUserOrders({ userId: id, page: currentPage, pageSize }));
     }
   }, [dispatch, id, currentPage, pageSize]);
 
-  // Fetch product details (names) to display in orders
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -49,7 +47,6 @@ const UserProfile = () => {
     }
   }, [orders]);
 
-  // Populate form with profile data
   useEffect(() => {
     if (profile) {
       form.setFieldsValue(profile);
@@ -65,13 +62,11 @@ const UserProfile = () => {
     }
   };
 
-  // Helper to get product name by ID
   const getProductName = (productId) => {
     const product = products.find((product) => product.id === productId);
     return product ? product.title : 'Unknown Product';
   };
 
-  // Handle pagination change
   const handlePageChange = (page) => {
     dispatch(setPage(page));
     dispatch(fetchUserOrders({ userId: id, page, pageSize }));
@@ -85,7 +80,6 @@ const UserProfile = () => {
     <div>
       <h2>Your Profile</h2>
 
-      {/* Profile Section Toggle */}
       <Collapse activeKey={profileVisible ? ['profile'] : []} onChange={(key) => setProfileVisible(key.includes('profile'))}>
         <Panel header="Profile Information" key="profile">
           <Form form={form} onFinish={onFinish} layout="vertical">
@@ -117,7 +111,6 @@ const UserProfile = () => {
 
       <Title level={3}>Your Orders</Title>
 
-      {/* Orders Section Toggle */}
       <Collapse activeKey={ordersVisible ? ['orders'] : []} onChange={(key) => setOrdersVisible(key.includes('orders'))}>
         <Panel header="Order History" key="orders">
           {ordersStatus === 'loading' ? (
@@ -149,7 +142,6 @@ const UserProfile = () => {
                 )}
               />
 
-              {/* Pagination for orders */}
               {typeof totalOrders === 'number' && !isNaN(totalOrders) && totalOrders > 0 ? (
                 <Pagination
                   current={currentPage}

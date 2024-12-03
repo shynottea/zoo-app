@@ -1,16 +1,13 @@
-// src/redux/slices/reviewSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const API_URL = 'http://localhost:5000/reviews';
 const ORDER_API_URL = 'http://localhost:5000/orders';
 
-// Submit a review
 export const submitReview = createAsyncThunk(
   'reviews/submitReview',
   async ({ userId, productId, rating, comment }, thunkAPI) => {
     try {
-      // Fetch all orders by the user
       const ordersResponse = await fetch(
         `${ORDER_API_URL}?userId=${userId}`
       );
@@ -19,7 +16,6 @@ export const submitReview = createAsyncThunk(
       }
       const orders = await ordersResponse.json();
 
-      // Check if the user has ordered this product
       const hasOrdered = orders.some(order =>
         order.items.some(item => String(item.productId) === String(productId))
       );
@@ -28,7 +24,6 @@ export const submitReview = createAsyncThunk(
         throw new Error('You can only review products you have ordered.');
       }
 
-      // Create the review
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,7 +49,6 @@ export const submitReview = createAsyncThunk(
   }
 );
 
-// Fetch reviews for a product
 export const fetchProductReviews = createAsyncThunk(
   'reviews/fetchProductReviews',
   async (productId, thunkAPI) => {
@@ -71,7 +65,6 @@ export const fetchProductReviews = createAsyncThunk(
   }
 );
 
-// Fetch all reviews
 export const fetchAllReviews = createAsyncThunk(
   'reviews/fetchAllReviews',
   async (_, thunkAPI) => {
@@ -88,18 +81,16 @@ export const fetchAllReviews = createAsyncThunk(
   }
 );
 
-// Slice
 const reviewSlice = createSlice({
   name: 'reviews',
   initialState: {
-    reviewsByProductId: {}, // { [productId]: [reviews] }
+    reviewsByProductId: {}, 
     status: 'idle',
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Submit Review
       .addCase(submitReview.pending, (state) => {
         state.status = 'loading';
       })
@@ -115,7 +106,6 @@ const reviewSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Fetch Product Reviews
       .addCase(fetchProductReviews.pending, (state) => {
         state.status = 'loading';
       })
@@ -128,14 +118,13 @@ const reviewSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Fetch All Reviews
       .addCase(fetchAllReviews.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchAllReviews.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const reviews = action.payload;
-        state.reviewsByProductId = {}; // Reset
+        state.reviewsByProductId = {}; 
         reviews.forEach(review => {
           if (!state.reviewsByProductId[review.productId]) {
             state.reviewsByProductId[review.productId] = [];

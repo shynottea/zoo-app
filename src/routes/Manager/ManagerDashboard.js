@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Popconfirm, message, Modal, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, deleteProduct } from '../../redux/slices/productsSlice';
-import ProductForm from './ProductForm'; // Ensure this path is correct
+import ProductForm from './ProductForm'; 
 
 const { Title } = Typography;
 

@@ -1,9 +1,7 @@
-// src/redux/slices/authSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
-// Register a new user
 export const register = createAsyncThunk(
   'auth/register',
   async ({ username, password, email }, thunkAPI) => {
@@ -24,7 +22,6 @@ export const register = createAsyncThunk(
   }
 );
 
-// Login and validate user credentials
 export const login = createAsyncThunk(
   'auth/login',
   async ({ username, password }, thunkAPI) => {
@@ -45,19 +42,16 @@ export const login = createAsyncThunk(
   }
 );
 
-// Update User Profile
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async ({ userId, profile }, thunkAPI) => {
     try {
-      // Fetch existing user data
       const getUserResponse = await fetch(`http://localhost:5000/users/${userId}`);
       if (!getUserResponse.ok) {
         throw new Error('Failed to fetch existing user data');
       }
       const existingUser = await getUserResponse.json();
 
-      // Merge existing profile with new profile data
       const updatedUser = {
         ...existingUser,
         profile: {
@@ -66,7 +60,6 @@ export const updateProfile = createAsyncThunk(
         },
       };
 
-      // Update user data
       const updateResponse = await fetch(`http://localhost:5000/users/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -78,7 +71,7 @@ export const updateProfile = createAsyncThunk(
       }
 
       const updatedData = await updateResponse.json();
-      return updatedData; // Return updated user data
+      return updatedData; 
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message || 'Profile update failed');
     }
@@ -89,7 +82,7 @@ const initialState = {
   isAuth: false,
   id: '',
   username: '',
-  role: '', // 'admin', 'manager', 'user'
+  role: '', 
   status: 'idle',
   error: null,
   profile: null,
@@ -112,18 +105,16 @@ const authSlice = createSlice({
       if (user) {
         state.isAuth = true;
         state.username = user;
-        // Note: To fully populate user details, consider fetching user data here
       }
     },
   },
   extraReducers: (builder) => {
     builder
-      // Handle Register
       .addCase(register.fulfilled, (state, action) => {
         state.isAuth = true;
         state.id = action.payload.id;
         state.username = action.payload.name;
-        state.role = 'user'; // Default role after registration
+        state.role = 'user'; 
         state.status = 'succeeded';
         state.profile = action.payload.profile || {};
       })
@@ -131,7 +122,6 @@ const authSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Handle Login
       .addCase(login.fulfilled, (state, action) => {
         state.isAuth = true;
         state.id = action.payload.id;
@@ -144,7 +134,6 @@ const authSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Handle Update Profile
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
       })

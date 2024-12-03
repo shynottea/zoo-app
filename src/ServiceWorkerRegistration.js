@@ -1,4 +1,3 @@
-// Register the service worker
 export function register(config) {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -7,6 +6,8 @@ export function register(config) {
       navigator.serviceWorker
         .register(swUrl)
         .then((registration) => {
+          console.log('Service Worker registered:', registration);
+
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;
             if (installingWorker) {

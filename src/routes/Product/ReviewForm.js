@@ -19,7 +19,7 @@ const ReviewForm = ({ productId }) => {
     dispatch(
       submitReview({
         userId,
-        productId: String(productId), // Ensure productId is string
+        productId: String(productId), 
         rating: values.rating,
         comment: values.comment,
       })
@@ -28,7 +28,7 @@ const ReviewForm = ({ productId }) => {
       .then(() => {
         setSuccess(true);
         form.resetFields();
-        dispatch(fetchProductReviews(productId)); // Refresh reviews
+        dispatch(fetchProductReviews(productId)); 
       })
       .catch(() => {
         setSuccess(false);

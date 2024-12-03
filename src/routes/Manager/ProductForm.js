@@ -26,7 +26,6 @@ const ProductForm = ({ product, onClose, onSubmit }) => {
 
     const onFinish = (values) => {
         if (product) {
-            // Update existing product
             dispatch(updateProduct({ id: product.id, updatedProduct: { ...product, ...values } }))
                 .unwrap()
                 .then(() => {
@@ -38,7 +37,6 @@ const ProductForm = ({ product, onClose, onSubmit }) => {
                     message.error(`Update failed: ${err}`);
                 });
         } else {
-            // Create new product
             dispatch(createProduct(values))
                 .unwrap()
                 .then(() => {
@@ -98,7 +96,6 @@ const ProductForm = ({ product, onClose, onSubmit }) => {
                     <Option value="Cages">Cages</Option>
                     <Option value="Accessories">Accessories</Option>
                     <Option value="Food">Food</Option>
-                    {/* Add more categories as needed */}
                 </Select>
             </Form.Item>
             <Form.Item

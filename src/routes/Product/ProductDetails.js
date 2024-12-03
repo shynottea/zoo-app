@@ -1,4 +1,3 @@
-// src/routes/Product/ProductDetails.js
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';

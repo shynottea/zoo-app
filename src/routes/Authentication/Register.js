@@ -8,23 +8,20 @@ const { Title } = Typography;
 
 const Register = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // For redirection after registration
+  const navigate = useNavigate(); 
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values) => {
     setLoading(true);
     const { username, password, email } = values;
 
-    // Register the user
     dispatch(register({ username, password, email }))
       .unwrap()
       .then(() => {
         message.success('Registration successful!');
-        
-        // After successful registration, log the user in
+
         dispatch(login({ username, password }));
 
-        // Redirect to the main page (ProductList)
         navigate('/products');
       })
       .catch((error) => {

@@ -1,11 +1,9 @@
-// src/redux/slices/productsSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchProductsData } from '../../routes/Product/fetch';
 
 const server = 'http://localhost:5000/products';
 
-// Fetch all products
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
@@ -14,7 +12,6 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-// Fetch product by ID
 export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
   async (id, thunkAPI) => {
@@ -31,7 +28,6 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-// Create a new product
 export const createProduct = createAsyncThunk(
   'products/createProduct',
   async (newProduct, thunkAPI) => {
@@ -52,7 +48,6 @@ export const createProduct = createAsyncThunk(
   }
 );
 
-// Update an existing product
 export const updateProduct = createAsyncThunk(
   'products/updateProduct',
   async ({ id, updatedProduct }, thunkAPI) => {
@@ -73,7 +68,6 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
-// Delete a product
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (id, thunkAPI) => {
@@ -91,7 +85,6 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
-// Slice
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
