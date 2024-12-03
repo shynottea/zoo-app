@@ -1,31 +1,33 @@
+// src/redux/slices/cartSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  items: [], 
+  items: []
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart(state, action) {
+    addToCart: (state, action) => {
       const product = action.payload;
-      const existingProduct = state.items.find((item) => item.id === product.id);
+      const existingProduct = state.items.find(item => item.id === product.id);
 
       if (existingProduct) {
-        existingProduct.quantity += product.quantity;
+        // Увеличиваем количество товара, если уже есть в корзине
+        existingProduct.quantity += 1;
       } else {
-        state.items.push({ ...product });
+        // Добавляем товар в корзину
+        state.items.push({ ...product, quantity: 1 });
       }
     },
-    removeFromCart(state, action) {
-      const productId = action.payload;
-      state.items = state.items.filter((item) => item.id !== productId);
+    removeFromCart: (state, action) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
     },
-    clearCart(state) {
+    clearCart: (state) => {
       state.items = [];
-    },
-  },
+    }
+  }
 });
 
 export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;

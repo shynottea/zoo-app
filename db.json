@@ -126,6 +126,21 @@
   ],
   "users": [
     {
+      "id": "4",
+      "name": "a",
+      "email": "ss",
+      "isAdmin": false,
+      "isManager": false,
+      "profile.firstName": "Magzhan",
+      "profile.lastName": "Kulekesh",
+      "profile.address": "Ислама Каримова 70/1",
+      "profile": {
+        "firstName": "Magzhan",
+        "lastName": "Kulekesh",
+        "address": "Ислама Каримова 70/1"
+      }
+    },
+    {
       "id": "1",
       "name": "admin",
       "password": "admin",

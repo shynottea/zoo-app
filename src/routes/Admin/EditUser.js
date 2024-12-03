@@ -45,9 +45,9 @@ const EditUserProfile = ({ onUserUpdated }) => {
 
   if (status === 'loading') {
     return (
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <Spin size="large" />
-      </div>
+        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+          <Spin size="large" />
+        </div>
     );
   }
 
@@ -60,69 +60,69 @@ const EditUserProfile = ({ onUserUpdated }) => {
   }
 
   return (
-    <div>
-      <h2>Edit User</h2>
-      <Form
-        form={form}
-        initialValues={{
-          ...user,
-          'profile.firstName': user?.profile?.firstName,
-          'profile.lastName': user?.profile?.lastName,
-          'profile.address': user?.profile?.address,
-        }}
-        onFinish={handleSubmit}
-        layout="vertical"
-      >
-        <Form.Item
-          label="Username"
-          name="name"
-          rules={[{ required: true, message: 'Please input the username!' }]}
+      <div>
+        <h2>Edit User</h2>
+        <Form
+            form={form}
+            initialValues={{
+              ...user,
+              'profile.firstName': user?.profile?.firstName,
+              'profile.lastName': user?.profile?.lastName,
+              'profile.address': user?.profile?.address,
+            }}
+            onFinish={handleSubmit}
+            layout="vertical"
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input the email!' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Admin Role"
-          name="isAdmin"
-          rules={[{ required: true, message: 'Please select if the user is admin!' }]}
-        >
-          <Select>
-            <Select.Option value={false}>No</Select.Option>
-            <Select.Option value={true}>Yes</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Manager Role"
-          name="isManager"
-          rules={[{ required: true, message: 'Please select if the user is manager!' }]}
-        >
-          <Select>
-            <Select.Option value={false}>No</Select.Option>
-            <Select.Option value={true}>Yes</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item label="First Name" name="profile.firstName">
-          <Input />
-        </Form.Item>
-        <Form.Item label="Last Name" name="profile.lastName">
-          <Input />
-        </Form.Item>
-        <Form.Item label="Address" name="profile.address">
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            Update User
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+          <Form.Item
+              label="Username"
+              name="name"
+              rules={[{ required: true, message: 'Please input the username!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Please input the email!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+              label="Admin Role"
+              name="isAdmin"
+              rules={[{ required: true, message: 'Please select if the user is admin!' }]}
+          >
+            <Select>
+              <Select.Option value={false}>No</Select.Option>
+              <Select.Option value={true}>Yes</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+              label="Manager Role"
+              name="isManager"
+              rules={[{ required: true, message: 'Please select if the user is manager!' }]}
+          >
+            <Select>
+              <Select.Option value={false}>No</Select.Option>
+              <Select.Option value={true}>Yes</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item label="First Name" name="profile.firstName">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Last Name" name="profile.lastName">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Address" name="profile.address">
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+              Update User
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
   );
 };
 

@@ -24,36 +24,36 @@ const UserProfile = () => {
   };
 
   return (
-    <div>
-      <h2>Your Profile</h2>
-      <Form form={form} onFinish={onFinish} layout="vertical">
-        <Form.Item
-          label="First Name"
-          name="firstName"
-          rules={[{ required: true, message: 'Please enter your first name!' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Last Name"
-          name="lastName"
-          rules={[{ required: true, message: 'Please enter your last name!' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Address"
-          name="address"
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Update Profile
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+      <div>
+        <h2>Your Profile</h2>
+        <Form form={form} onFinish={onFinish} layout="vertical">
+          <Form.Item
+              label="First Name"
+              name="firstName"
+              rules={[{ required: true, message: 'Please enter your first name!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+              label="Last Name"
+              name="lastName"
+              rules={[{ required: true, message: 'Please enter your last name!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+              label="Address"
+              name="address"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Update Profile
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
   );
 };
 
