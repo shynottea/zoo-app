@@ -1,10 +1,9 @@
-// src/redux/slices/productsSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchProductsData } from '../../routes/Product/fetch';
 
 const server = 'http://localhost:5000/products';
 
-// Fetch all products
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async () => {
@@ -13,7 +12,6 @@ export const fetchProducts = createAsyncThunk(
     }
 );
 
-// Fetch product by ID
 export const fetchProductById = createAsyncThunk(
     'products/fetchProductById',
     async (id) => {
@@ -26,7 +24,6 @@ export const fetchProductById = createAsyncThunk(
     }
 );
 
-// Create a new product
 export const createProduct = createAsyncThunk(
     'products/createProduct',
     async (newProduct, thunkAPI) => {
@@ -47,7 +44,6 @@ export const createProduct = createAsyncThunk(
     }
 );
 
-// Update an existing product
 export const updateProduct = createAsyncThunk(
     'products/updateProduct',
     async ({ id, updatedProduct }, thunkAPI) => {
@@ -68,7 +64,6 @@ export const updateProduct = createAsyncThunk(
     }
 );
 
-// Delete a product
 export const deleteProduct = createAsyncThunk(
     'products/deleteProduct',
     async (id, thunkAPI) => {
@@ -98,11 +93,10 @@ const productsSlice = createSlice({
     limit: 6,
   },
   reducers: {
-    // You can add non-async reducers here if needed
+
   },
   extraReducers: (builder) => {
     builder
-        // Existing cases for fetchProducts and fetchProductById
         .addCase(fetchProducts.pending, (state) => {
           state.status = 'loading';
         })
@@ -128,7 +122,6 @@ const productsSlice = createSlice({
           state.status = 'failed';
           state.error = action.error.message || 'Failed to fetch product details';
         })
-        // Handle createProduct
         .addCase(createProduct.fulfilled, (state, action) => {
           state.items.push(action.payload);
           state.totalPages = Math.ceil(state.items.length / state.limit);
@@ -136,7 +129,6 @@ const productsSlice = createSlice({
         .addCase(createProduct.rejected, (state, action) => {
           state.error = action.payload;
         })
-        // Handle updateProduct
         .addCase(updateProduct.fulfilled, (state, action) => {
           const index = state.items.findIndex((p) => p.id === action.payload.id);
           if (index !== -1) {
@@ -149,7 +141,6 @@ const productsSlice = createSlice({
         .addCase(updateProduct.rejected, (state, action) => {
           state.error = action.payload;
         })
-        // Handle deleteProduct
         .addCase(deleteProduct.fulfilled, (state, action) => {
           state.items = state.items.filter((p) => p.id !== action.payload);
           state.totalPages = Math.ceil(state.items.length / state.limit);

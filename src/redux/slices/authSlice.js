@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
-// Register a new user
 export const register = createAsyncThunk(
   'auth/register',
   async ({ username, password, email }, thunkAPI) => {
@@ -19,7 +18,6 @@ export const register = createAsyncThunk(
   }
 );
 
-// Login and validate user credentials
 export const login = createAsyncThunk(
   'auth/login',
   async ({ username, password }, thunkAPI) => {
@@ -40,7 +38,6 @@ export const login = createAsyncThunk(
   }
 );
 
-// Profile Update (CRUD) for the user
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async ({ userId, profile }, thunkAPI) => {

@@ -1,4 +1,4 @@
-// src/redux/slices/userSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const API_URL = 'http://localhost:5000/users';

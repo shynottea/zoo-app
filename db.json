@@ -2,11 +2,11 @@
   "products": [
     {
       "id": "1",
-      "title": "Dog Bed",
+      "title": "sss",
       "image": "https://shorturl.at/ExE40",
       "description": "A comfortable and durable bed for your dog to rest on.",
       "category": "Furniture",
-      "price": 49.99,
+      "price": 1,
       "rates": [
         5,
         4,
@@ -122,30 +122,22 @@
       "price": 13.95,
       "rates": [],
       "rating": null
-    },
-    {
-      "id": "0011",
-      "title": "asd",
-      "image": "asd",
-      "description": "asd",
-      "category": "Furniture",
-      "price": 123
     }
   ],
   "users": [
-    {"id": "1",
-    "name": "dony",
-    "password": "magrony",
-    "isAdmin": false,
-    "isManager": false,
-    "email": "dony@example.com",
-    "profile":
     {
-      "firstName": "dd",
-      "lastName": "dd",
-      "address": "dd"
-    }
-  },
+      "id": "1",
+      "name": "admin",
+      "password": "admin",
+      "isAdmin": true,
+      "isManager": false,
+      "email": "admin@example.com",
+      "profile": {
+        "firstName": "dd",
+        "lastName": "dd",
+        "address": "dd"
+      }
+    },
     {
       "id": "2",
       "name": "dony",

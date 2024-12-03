@@ -11,12 +11,11 @@ const AdminDashboard = () => {
   const { users, status, error } = useSelector((state) => state.users);
   const [showAddUserModal, setShowAddUserModal] = React.useState(false);
 
-  // Function to display system notifications
   const showNotification = (title, body) => {
     if (Notification.permission === 'granted') {
       new Notification(title, {
         body,
-        icon: '/logo192.png', // Replace with your app's logo or icon
+        icon: '/logo192.png',
       });
     } else if (Notification.permission === 'default') {
       Notification.requestPermission().then((permission) => {

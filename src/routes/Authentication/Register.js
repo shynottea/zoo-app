@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { register, login } from '../../redux/slices/authSlice'; // Import login action
+import { register, login } from '../../redux/slices/authSlice';
 import { Form, Input, Button, Typography, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ const { Title } = Typography;
 
 const Register = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // For redirection after registration
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values) => {
@@ -20,11 +20,8 @@ const Register = () => {
       .unwrap()
       .then(() => {
         message.success('Registration successful!');
-        
-        // After successful registration, log the user in
         dispatch(login({ username, password }));
 
-        // Redirect to the main page (ProductList)
         navigate('/products');
       })
       .catch((error) => {
