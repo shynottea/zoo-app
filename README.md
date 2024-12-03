@@ -40,3 +40,6 @@ We are students of **Kazakh-British Technical University (KBTU)**, currently enr
 - npm install antd
 - npx json-server --watch db.json --port 5000
 - npm start
+
+
+npm install redux-persist
