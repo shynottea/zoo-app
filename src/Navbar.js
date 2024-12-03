@@ -1,10 +1,10 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Input, Row, Col, Button, Space, message } from 'antd';
 import zooLogo from './static/media/zoo-logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './redux/slices/authSlice';
-import './static/css/Navbar.css'; 
+import './static/css/Navbar.css';
 
 const { Search } = Input;
 
@@ -20,33 +20,29 @@ const Navbar = ({ onSearch }) => {
     if (Notification.permission === 'default') {
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
-        console.log('Notification permission granted.');
         message.success('Notifications enabled!');
-      } else if (permission === 'denied') {
-        console.error('Notification permission denied.');
+      } else {
         message.error('Notifications are blocked. Please allow them in your browser settings.');
       }
     } else if (Notification.permission === 'granted') {
       console.log('Notifications already enabled.');
     } else {
-      console.error('Notifications are already blocked.');
-    }
-  };
-  useEffect(() => {
-    requestNotificationPermission();
-  }, []);
-  const handleLogoClick = () => {
-    setSearchValue('');
-    navigate('/productlist', { replace: true });
-    if (onSearch) {
-      onSearch('');
+      message.error('Notifications are already blocked.');
     }
   };
 
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
+  const handleLogoClick = () => {
+    setSearchValue('');
+    navigate('/productlist', { replace: true });
+    if (onSearch) onSearch('');
+  };
+
   const handleSearch = (value) => {
-    if (onSearch) {
-      onSearch(value);
-    }
+    if (onSearch) onSearch(value);
   };
 
   const isActive = (path) => location.pathname === path;
@@ -130,18 +126,17 @@ const Navbar = ({ onSearch }) => {
               </Button>
             )}
 
-            {/* Login/Logout and Profile */}
+            {/* Profile and Logout */}
             {isAuth ? (
               <>
-            {isAuth && userRole !== 'admin' && (
-              <Button
-                type="text"
-                onClick={() => navigate('/user-profile')} // Navigate to the profile route
-                className={`navButton ${isActive('/user-profile') ? 'active' : ''}`} // Highlight the button if active
-              >
-                Profile
-              </Button>
-            )}
+                <Button
+                  type="text"
+                  onClick={() => navigate('/user-profile')}
+                  className={`navButton ${isActive('/user-profile') ? 'active' : ''}`}
+                >
+                  Profile
+                </Button>
+
                 <Button
                   type="text"
                   onClick={() => {
@@ -154,13 +149,24 @@ const Navbar = ({ onSearch }) => {
                 </Button>
               </>
             ) : (
-              <Button
-                type="text"
-                onClick={() => navigate('/login')}
-                className={`navButton ${isActive('/login') ? 'active' : ''}`}
-              >
-                Login
-              </Button>
+              <>
+                <Button
+                  type="text"
+                  onClick={() => navigate('/login')}
+                  className={`navButton ${isActive('/login') ? 'active' : ''}`}
+                >
+                  Login
+                </Button>
+
+                {/* Register Button (only if not authenticated) */}
+                <Button
+                  type="text"
+                  onClick={() => navigate('/register')}
+                  className={`navButton ${isActive('/register') ? 'active' : ''}`}
+                >
+                  Register
+                </Button>
+              </>
             )}
           </Space>
         </Col>

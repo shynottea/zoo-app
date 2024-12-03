@@ -29,11 +29,13 @@ const ProductDetails = () => {
     dispatch(fetchProductReviews(id));
     if (isAuth) {
       dispatch(fetchUserOrders(userId)).then((action) => {
-        if (action.payload) {
-          const ordered = action.payload.some(order =>
+        if (action.payload && Array.isArray(action.payload.orders)) {
+          const ordered = action.payload.orders.some(order =>
             order.items.some(item => String(item.productId) === String(id))
           );
           setHasOrdered(ordered);
+        } else {
+          console.error("Unexpected payload structure:", action.payload);
         }
       });
     }

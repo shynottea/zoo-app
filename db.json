@@ -43,7 +43,7 @@
       "description": "A durable, adjustable leash for walking your dog safely and comfortably.",
       "category": "Accessories",
       "price": 19.99,
-      "stock": 24
+      "stock": 23
     },
     {
       "id": "6",
@@ -61,7 +61,7 @@
       "description": "Nutritious bird food suitable for a variety of bird species.",
       "category": "Food",
       "price": 14.99,
-      "stock": 34
+      "stock": 33
     },
     {
       "id": "8",
@@ -80,6 +80,22 @@
       "category": "Aquatic Supplies",
       "price": 13.95,
       "stock": 0
+    },
+    {
+      "id": "7ace",
+      "title": "asddas",
+      "image": "asdasd",
+      "description": "asdads",
+      "category": "Furniture",
+      "price": 123
+    },
+    {
+      "id": "e3bc",
+      "title": "asd",
+      "image": "asd",
+      "description": "asd",
+      "category": "Toys",
+      "price": 2
     }
   ],
   "users": [
@@ -128,6 +144,22 @@
       "password": "509465",
       "email": "s@gmail.com",
       "isAdmin": false,
+      "isManager": false
+    },
+    {
+      "id": "c533",
+      "name": "ada",
+      "email": "dad@da",
+      "password": "dd",
+      "isAdmin": false,
+      "isManager": false
+    },
+    {
+      "id": "ede1",
+      "name": "ad",
+      "email": "ad@ada",
+      "password": "adad",
+      "isAdmin": true,
       "isManager": false
     }
   ],
@@ -279,6 +311,22 @@
       ],
       "date": "2024-12-03T15:59:35.333Z",
       "total": 419.85999999999996
+    },
+    {
+      "id": "ad2b",
+      "userId": null,
+      "items": [
+        {
+          "productId": "7",
+          "quantity": 1
+        },
+        {
+          "productId": "5",
+          "quantity": 1
+        }
+      ],
+      "date": "2024-12-03T16:37:18.868Z",
+      "total": 34.98
     }
   ],
   "reviews": [

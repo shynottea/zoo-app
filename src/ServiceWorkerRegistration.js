@@ -1,3 +1,4 @@
+// Register the service worker
 export function register(config) {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
