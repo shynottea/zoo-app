@@ -47,6 +47,9 @@ const AdminDashboard = () => {
           message.error(`Failed to delete user: ${error}`);
         });
   };
+  const handleUserUpdated = (updatedUser) => {
+    showNotification('User Updated', `User ${updatedUser.name} has been updated.`);
+  };
 
   const columns = [
     {
@@ -69,9 +72,14 @@ const AdminDashboard = () => {
       title: 'Actions',
       render: (_, record) => (
           <span>
-          <Button onClick={() => navigate(`/admin-dashboard/${record.id}`)} style={{ marginRight: 10 }}>
+          <Button
+              onClick={() => navigate(`/admin-dashboard/${record.id}`)}
+              style={{ marginRight: 10 }}
+          >
             Edit
           </Button>
+
+
           <Popconfirm
               title="Are you sure to delete this user?"
               onConfirm={() => handleDeleteUser(record.id)}

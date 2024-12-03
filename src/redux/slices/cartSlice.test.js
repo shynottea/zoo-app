@@ -1,5 +1,5 @@
 // src/tests/cartSlice.test.js
-import cartReducer, { addToCart, removeFromCart, clearCart } from '../redux/slices/cartSlice';
+import cartReducer, { addToCart, removeFromCart, clearCart } from './cartSlice';
 
 describe('cartSlice', () => {
     const initialState = { items: [] };
