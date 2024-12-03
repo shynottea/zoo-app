@@ -23,23 +23,23 @@ export const register = createAsyncThunk(
 );
 
 export const login = createAsyncThunk(
-  'auth/login',
-  async ({ username, password }, thunkAPI) => {
-    try {
-      const response = await fetch('http://localhost:5000/users');
-      const users = await response.json();
+    'auth/login',
+    async ({ username, password }, thunkAPI) => {
+      try {
+        const response = await fetch('http://localhost:5000/users');
+        const users = await response.json();
 
-      const user = users.find(u => u.name === username && u.password === password);
-      if (user) {
-        Cookies.set('user', user.name, { expires: 7 });
-        return user;
-      } else {
-        return thunkAPI.rejectWithValue('Invalid username or password');
+        const user = users.find(u => u.name === username && u.password === password);
+        if (user) {
+          Cookies.set('user', user.name, { expires: 7 });
+          return user;
+        } else {
+          return thunkAPI.rejectWithValue('Invalid username or password');
+        }
+      } catch (error) {
+        return thunkAPI.rejectWithValue('Network error');
       }
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Network error');
     }
-  }
 );
 
 export const updateProfile = createAsyncThunk(
@@ -77,6 +77,7 @@ export const updateProfile = createAsyncThunk(
     }
   }
 );
+
 
 const initialState = {
   isAuth: false,

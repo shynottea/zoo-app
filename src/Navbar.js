@@ -5,6 +5,7 @@ import zooLogo from './static/media/zoo-logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './redux/slices/authSlice';
 import './static/css/Navbar.css';
+import './static/css/Navbar.css';
 
 const { Search } = Input;
 
@@ -48,83 +49,83 @@ const Navbar = ({ onSearch }) => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="navbar">
-      <Row align="middle" justify="space-between">
-        {/* Logo */}
-        <Col>
-          <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-            <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
-          </div>
-        </Col>
+      <div className="navbar">
+        <Row align="middle" justify="space-between">
+          {/* Logo */}
+          <Col>
+            <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+              <img src={zooLogo} alt="Logo" style={{ height: '40px' }} />
+            </div>
+          </Col>
 
-        {/* Search Bar */}
-        <Col xs={24} sm={12} md={8} lg={8} xl={8} style={{ textAlign: 'center' }}>
-          <Search
-            placeholder="Search products..."
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            onSearch={handleSearch}
-            allowClear
-            style={{
-              maxWidth: '300px',
-              width: '100%',
-            }}
-          />
-        </Col>
+          {/* Search Bar */}
+          <Col xs={24} sm={12} md={8} lg={8} xl={8} style={{ textAlign: 'center' }}>
+            <Search
+                placeholder="Search products..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                onSearch={handleSearch}
+                allowClear
+                style={{
+                  maxWidth: '300px',
+                  width: '100%',
+                }}
+            />
+          </Col>
 
-        {/* Navigation Items */}
-        <Col>
-          <Space size="middle" className="navItems">
-            {/* Products */}
-            <Button
-              type="text"
-              onClick={() => navigate('/productlist')}
-              className={`navButton ${isActive('/productlist') ? 'active' : ''}`}
-            >
-              Products
-            </Button>
-
-            {/* Contacts */}
-            <Button
-              type="text"
-              onClick={() => navigate('/contacts')}
-              className={`navButton ${isActive('/contacts') ? 'active' : ''}`}
-            >
-              Contacts
-            </Button>
-
-            {/* Cart (only if authenticated) */}
-            {isAuth && (
+          {/* Navigation Items */}
+          <Col>
+            <Space size="middle" className="navItems">
+              {/* Products */}
               <Button
-                type="text"
-                onClick={() => navigate('/cart')}
-                className={`navButton ${isActive('/cart') ? 'active' : ''}`}
+                  type="text"
+                  onClick={() => navigate('/productlist')}
+                  className={`navButton ${isActive('/productlist') ? 'active' : ''}`}
               >
-                Cart
+                Products
               </Button>
-            )}
 
-            {/* Admin Dashboard (only if admin) */}
-            {isAuth && userRole === 'admin' && (
+              {/* Contacts */}
               <Button
-                type="text"
-                onClick={() => navigate('/admin-dashboard')}
-                className={`navButton ${isActive('/admin-dashboard') ? 'active' : ''}`}
+                  type="text"
+                  onClick={() => navigate('/contacts')}
+                  className={`navButton ${isActive('/contacts') ? 'active' : ''}`}
               >
-                Admin Dashboard
+                Contacts
               </Button>
-            )}
 
-            {/* Manager Dashboard (only if manager) */}
-            {isAuth && userRole === 'manager' && (
-              <Button
-                type="text"
-                onClick={() => navigate('/manager-dashboard')}
-                className={`navButton ${isActive('/manager-dashboard') ? 'active' : ''}`}
-              >
-                Manager Dashboard
-              </Button>
-            )}
+              {/* Cart (only if authenticated) */}
+              {isAuth && (
+                  <Button
+                      type="text"
+                      onClick={() => navigate('/cart')}
+                      className={`navButton ${isActive('/cart') ? 'active' : ''}`}
+                  >
+                    Cart
+                  </Button>
+              )}
+
+              {/* Admin Dashboard (only if admin) */}
+              {isAuth && userRole === 'admin' && (
+                  <Button
+                      type="text"
+                      onClick={() => navigate('/admin-dashboard')}
+                      className={`navButton ${isActive('/admin-dashboard') ? 'active' : ''}`}
+                  >
+                    Admin Dashboard
+                  </Button>
+              )}
+
+              {/* Manager Dashboard (only if manager) */}
+              {isAuth && userRole === 'manager' && (
+                  <Button
+                      type="text"
+                      onClick={() => navigate('/manager-dashboard')}
+                      className={`navButton ${isActive('/manager-dashboard') ? 'active' : ''}`}
+                  >
+                    Manager Dashboard
+                  </Button>
+              )}
 
             {/* Profile and Logout */}
             {isAuth ? (

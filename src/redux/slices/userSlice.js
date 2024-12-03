@@ -5,36 +5,36 @@ const API_URL = 'http://localhost:5000/users';
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
     const response = await fetch(API_URL);
     if (!response.ok) {
-    throw new Error('Failed to fetch users');
+        throw new Error('Failed to fetch users');
     }
     return await response.json();
 });
 
 export const deleteUser = createAsyncThunk('users/deleteUser', async (userId, thunkAPI) => {
     try {
-    const response = await fetch(`${API_URL}/${userId}`, { method: 'DELETE' });
-    if (!response.ok) {
-        throw new Error('Failed to delete user');
-    }
-    return userId; 
+        const response = await fetch(`${API_URL}/${userId}`, { method: 'DELETE' });
+        if (!response.ok) {
+            throw new Error('Failed to delete user');
+        }
+        return userId;
     } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+        return thunkAPI.rejectWithValue(error.message);
     }
 });
 
 export const addUser = createAsyncThunk('users/addUser', async (newUser, thunkAPI) => {
     try {
-    const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newUser),
-    });
-    if (!response.ok) {
-        throw new Error('Failed to add user');
-    }
-    return await response.json(); 
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newUser),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to add user');
+        }
+        return await response.json();
     } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+        return thunkAPI.rejectWithValue(error.message);
     }
 });
 
@@ -44,11 +44,14 @@ export const updateUser = createAsyncThunk('users/updateUser', async ({ userId, 
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData),
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData),
         });
         if (!response.ok) {
             throw new Error('Failed to update user');
         }
-        return await response.json(); 
+        return await response.json();
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message || 'An unknown error occurred');
     }

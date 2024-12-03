@@ -1,4 +1,4 @@
-
+// src/redux/slices/productsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchProductsData } from '../../routes/Product/fetch';
 

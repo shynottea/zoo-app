@@ -43,7 +43,7 @@
       "description": "A durable, adjustable leash for walking your dog safely and comfortably.",
       "category": "Accessories",
       "price": 19.99,
-      "stock": 20
+      "stock": 19
     },
     {
       "id": "6",
@@ -61,7 +61,7 @@
       "description": "Nutritious bird food suitable for a variety of bird species.",
       "category": "Food",
       "price": 14.99,
-      "stock": 32
+      "stock": 31
     },
     {
       "id": "8",
@@ -85,7 +85,7 @@
       "id": "7ace",
       "title": "asddas",
       "image": "asdasd",
-      "description": "asdads",
+      "description": "asdadsddd",
       "category": "Furniture",
       "price": 123
     },
@@ -96,6 +96,14 @@
       "description": "asd",
       "category": "Toys",
       "price": 2
+    },
+    {
+      "id": "25b0",
+      "title": "ads",
+      "image": "asd",
+      "description": "asd",
+      "category": "Toys",
+      "price": 111
     }
   ],
   "users": [
@@ -110,6 +118,37 @@
         "firstName": "prime",
         "lastName": "prime",
         "address": "prime"
+      }
+    },
+    {
+      "firstName": "Islam",
+      "lastName": "Khassangaliyev",
+      "address": "Monkaeva 65",
+      "id": "4",
+      "name": "aaa",
+      "email": "sss",
+      "isAdmin": true,
+      "isManager": false,
+      "profile.firstName": "Magzhan",
+      "profile.lastName": "Kulekesh",
+      "profile.address": "Ислама Каримова 70/1",
+      "profile": {
+        "firstName": "Magzhan",
+        "lastName": "Kulekesh",
+        "address": "Ислама Каримова 70/1"
+      }
+    },
+    {
+      "id": "1",
+      "name": "admin",
+      "password": "admin",
+      "isAdmin": true,
+      "isManager": false,
+      "email": "admin@example.com",
+      "profile": {
+        "firstName": "dd",
+        "lastName": "dd",
+        "address": "dd"
       }
     },
     {
@@ -133,9 +172,9 @@
       "isManager": true,
       "email": "manager@example.com",
       "profile": {
-        "firstName": "Manager",
-        "lastName": "User",
-        "address": "789 Manager Rd, Manager City"
+        "firstName": "Manager dd",
+        "lastName": "dd User",
+        "address": "789 Manager Rd, Manager Citydd"
       }
     },
     {
@@ -174,6 +213,14 @@
         "lastName": "awd",
         "address": "awd"
       }
+    },
+    {
+      "id": "1d14",
+      "name": "manager 222",
+      "password": "manager12322",
+      "email": "asdsa@gmail.com",
+      "isAdmin": false,
+      "isManager": false
     }
   ],
   "orders": [
@@ -356,6 +403,22 @@
       ],
       "date": "2024-12-03T18:38:06.048Z",
       "total": 74.96
+    },
+    {
+      "id": "5599",
+      "userId": "3",
+      "items": [
+        {
+          "productId": "7",
+          "quantity": 1
+        },
+        {
+          "productId": "5",
+          "quantity": 1
+        }
+      ],
+      "date": "2024-12-03T18:54:49.565Z",
+      "total": 34.98
     }
   ],
   "reviews": [

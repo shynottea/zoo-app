@@ -15,6 +15,7 @@ import { combineReducers } from 'redux';
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['auth', 'cart', 'products','users'],
   whitelist: ['auth', 'cart', 'products'],
 };
 
@@ -32,11 +33,11 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
-      },
-    }),
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        },
+      }),
 });
 
 export const persistor = persistStore(store);

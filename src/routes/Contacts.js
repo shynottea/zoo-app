@@ -3,6 +3,7 @@ import { Layout, Form, Input, Button, Row, Col, Card, message } from 'antd';
 
 const { Content } = Layout;
 
+
 const Contacts = () => {
   const [form] = Form.useForm(); // Create a form instance to control the form
 

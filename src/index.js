@@ -5,7 +5,7 @@ import App from './App';
 import store from './redux/store';
 import { Provider } from 'react-redux';
 // import ErrorBoundary from './ErrorBoundary';
-import * as serviceWorkerRegistration from './ServiceWorkerRegistration' // Import this for PWA setup
+import * as serviceWorkerRegistration from './ServiceWorkerRegistration'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
