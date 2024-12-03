@@ -166,22 +166,6 @@
         "lastName": "Userвв",
         "address": "789 Manager Rd, ц"
       }
-    },
-    {
-      "id": "3125",
-      "name": "admin",
-      "email": "asd@asd",
-      "password": "admin",
-      "isAdmin": true,
-      "isManager": false,
-      "profile": {
-        "firstName": "asd",
-        "lastName": "asdasd",
-        "address": "asdasd"
-      },
-      "profile.firstName": "asd",
-      "profile.lastName": "asdasd",
-      "profile.address": "asdasd"
     }
   ]
 }

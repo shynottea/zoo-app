@@ -19,10 +19,10 @@ const AddUserForm = ({ visible, onClose, onUserAdded }) => {
     try {
       const addedUser = await dispatch(addUser(newUser)).unwrap();
       message.success('User added successfully');
-      dispatch(fetchUsers()); // Refresh user list
+      dispatch(fetchUsers()); 
       form.resetFields();
       onClose();
-      onUserAdded(addedUser); // Trigger notification for added user
+      onUserAdded(addedUser); 
     } catch (error) {
       console.error('Failed to add user:', error);
       message.error('Failed to add user. Please try again.');

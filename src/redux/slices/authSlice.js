@@ -57,11 +57,10 @@ export const updateProfile = createAsyncThunk(
         ...existingUser,
         profile: {
           ...existingUser.profile, // Keep existing profile fields
-          ...profile, // Overwrite only the fields provided in the update
+          ...profile, 
         },
       };
 
-      // Step 3: Send the updated user object back to the backend
       const updateResponse = await fetch(`http://localhost:5000/users/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -85,7 +84,7 @@ const initialState = {
   isAuth: false,
   id: '',
   username: '',
-  role: '', // Added to track the user role (user, manager, admin)
+  role: '', 
   status: 'idle',
   error: null,
   profile: null
@@ -117,7 +116,7 @@ const authSlice = createSlice({
         state.isAuth = true;
         state.id = action.payload.id;
         state.username = action.payload.username;
-        state.role = 'user'; // Default role is user
+        state.role = 'user'; 
         state.status = 'succeeded';
       })
       .addCase(register.rejected, (state, action) => {

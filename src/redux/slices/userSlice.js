@@ -41,16 +41,16 @@ export const addUser = createAsyncThunk('users/addUser', async (newUser, thunkAP
 export const updateUser = createAsyncThunk('users/updateUser', async ({ userId, userData }, thunkAPI) => {
     try {
         const response = await fetch(`${API_URL}/${userId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData),
         });
         if (!response.ok) {
-        throw new Error('Failed to update user');
+            throw new Error('Failed to update user');
         }
         return await response.json(); 
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.message);
+        return thunkAPI.rejectWithValue(error.message || 'An unknown error occurred');
     }
 });
 
@@ -94,8 +94,8 @@ builder
         }
     })
     .addCase(updateUser.rejected, (state, action) => {
-        state.error = action.payload;
-    });
+        state.error = action.payload || action.error.message;
+      });
 },
 });
 
