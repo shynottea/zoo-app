@@ -1,4 +1,3 @@
-// src/redux/store.js
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import cartReducer from './slices/cartSlice';
@@ -9,12 +8,10 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 
-
 const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['auth', 'cart', 'products','users'],
-
 };
 
 const rootReducer = combineReducers({
