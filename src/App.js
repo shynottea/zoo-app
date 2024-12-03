@@ -22,7 +22,7 @@ const { Header, Content } = Layout;
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
-  const { isAuth, username } = useSelector((state) => state.auth); // Access auth state
+  const { isAuth, username, role: userRole } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(setAuthFromCookie());
